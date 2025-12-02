@@ -1,0 +1,188 @@
+'use client';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Container from '@/components/ui/Container';
+import Image from 'next/image';
+import heroBg from '@/assets/images/home/hero-bg.jpg';
+
+const Section = styled.section`
+  position: relative;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  color: ${({ theme }) => theme.colors.black};
+  text-align: center;
+`;
+
+const Inner = styled.div`
+  /* ---- Animación de aparición ---- */
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 480ms ease, transform 480ms ease;
+
+  &[data-show='true'] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h1 {
+  }
+
+  h2.desc {
+    margin-top: 30px;
+    font-style: italic;
+    margin-bottom: 30px;
+
+    @media ${({ theme }) => theme.media.mdDown} {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+  }
+
+  p.sub {
+    margin-top: 8px;
+    max-width: 680px;
+    margin-inline: auto;
+    margin-bottom: 50px;
+
+    @media ${({ theme }) => theme.media.mdDown} {
+      margin-bottom: 20px;
+    }
+  }
+
+  .cta {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .lines {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+
+    .line {
+      height: 1px;
+      width: 50px;
+      background-color: black;
+      position: absolute;
+    }
+
+    .line1 {
+      top: 12px;
+      left: -70px;
+
+      @media ${({ theme }) => theme.media.xsDown} {
+        display: none;
+      }
+    }
+
+    .line2 {
+      top: 12px;
+      right: -70px;
+
+      @media ${({ theme }) => theme.media.xsDown} {
+        display: none;
+      }
+    }
+
+    span {
+      display: inline-block;
+    }
+  }
+`;
+
+const Btn = styled.a<{ $variant?: 'primary' | 'outline' }>`
+  padding: 5px 30px;
+  border-radius: 0;
+  border: 1px solid ${({ theme }) => theme.colors.black};
+  background: none;
+  color: black;
+  transition: all .2s ease-in-out;
+  text-transform: uppercase;
+
+  &:active { transform: translateY(1px); }
+  &:hover { background-color: black; color: white; }
+`;
+
+export const BrandMark = styled.img`
+  display: block;
+  width: 90px;
+  margin: 0 auto 20px;
+
+  /* <= 850px */
+  @media ${({ theme }) => theme.media.mdDown} {
+    width: 50px;
+  }
+
+  @media ${({ theme }) => theme.media.xsDown} {
+    display: none;
+  }
+`;
+
+export default function Hero() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Si ya hay scroll o el usuario prefiere menos movimiento → mostrar de inmediato
+    if (window.scrollY > 20 || noMotion) {
+      setShow(true);
+      return;
+    }
+
+    // Esperamos la señal del Header (cuando termina de bajar)
+    const onDone = () => setShow(true);
+    document.addEventListener('intro:headerDone', onDone, { once: true });
+
+    // Fallback por si el evento no llegara (p. ej. navegación directa a otra ruta)
+    const fallback = setTimeout(() => setShow(true), 1200);
+
+    return () => {
+      document.removeEventListener('intro:headerDone', onDone);
+      clearTimeout(fallback);
+    };
+  }, []);
+
+  return (
+    <Section>
+      <Image
+        src={heroBg}
+        alt="Novios tomados de la mano dándose un beso en el altar durante la ceremonia religiosa, con la novia en vestido blanco y el novio en traje negro."
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        style={{ objectFit: 'cover', objectPosition: 'center', zIndex: -1 }}
+        fetchPriority="high"
+      />
+      <Container>
+        <Inner data-show={show ? 'true' : undefined}>
+          <BrandMark
+            src="/Vector.svg"
+            alt="Logotipo de Luis Benítez Photography con las iniciales LBP en tipografía elegante dentro de un círculo adornado con ramas florales."
+          />
+
+          <div className="lines">
+            <div className="line1 line"></div>
+            <span>Luis Benítez Photography</span>
+            <div className="line2 line"></div>
+          </div>
+
+          <h1>Fotografía de bodas en Monterrey</h1>
+          <h2 className="desc">Instantes que se convierten en memorias eternas.</h2>
+          <p className="sub">
+            Cada mirada, cada gesto y cada emoción cuentan una historia única. Mi misión es capturar la esencia de tu amor con sensibilidad y arte, creando imágenes que perduren más allá del tiempo.
+          </p>
+
+          <div className="cta">
+            <Btn href="/contacto" $variant="primary">Comienza tu historia</Btn>
+          </div>
+        </Inner>
+      </Container>
+    </Section>
+  );
+}
