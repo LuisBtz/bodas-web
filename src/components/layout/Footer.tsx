@@ -1,6 +1,7 @@
 // src/components/layout/Footer.tsx
 'use client';
 
+import type { StaticImageData } from 'next/image';
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
@@ -10,8 +11,9 @@ import f1 from '@/assets/images/footer/1.jpg';
 import f2 from '@/assets/images/footer/2.jpg';
 import f3 from '@/assets/images/footer/3.jpg';
 import f4 from '@/assets/images/footer/4.jpg';
+import f5 from '@/assets/images/footer/5.jpg';
 
-const IG: { src: any; href: string; alt: string }[] = [
+const IG: { src: StaticImageData; href: string; alt: string }[] = [
   {
     src: f1,
     href:
@@ -35,6 +37,12 @@ const IG: { src: any; href: string; alt: string }[] = [
     href:
       'https://www.instagram.com/p/DNPCy9CsZ5I/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
     alt: 'Post 4 de Instagram',
+  },
+  {
+    src: f5,
+    href:
+      'https://www.instagram.com/luisbenitezphotography/',
+    alt: 'Post 5 de Instagram',
   },
 ];
 
@@ -70,12 +78,27 @@ const Head = styled.div`
 const IgStrip = styled.div`
   margin: 28px 0 54px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
 
   @media ${({ theme }) => theme.media.mdDown} {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+
+    /* Hide 5th item on tablet */
+    & > a:nth-child(n + 5) {
+      display: none;
+    }
+  }
+
+  @media ${({ theme }) => theme.media.smDown} {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+
+    /* Hide 4th+ items on mobile */
+    & > a:nth-child(n + 4) {
+      display: none;
+    }
   }
 `;
 
@@ -203,7 +226,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label={`Abrir post ${i + 1} en Instagram`}
             >
-              <Image src={item.src} alt={item.alt} fill sizes="(max-width: 850px) 50vw, 22vw" />
+              <Image src={item.src} alt={item.alt} fill sizes="(max-width: 520px) 33vw, (max-width: 850px) 25vw, 20vw" />
             </IgCard>
           ))}
         </IgStrip>

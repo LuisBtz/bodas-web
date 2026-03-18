@@ -2,10 +2,10 @@
 
 import styled, { css } from 'styled-components';
 import Container from '@/components/ui/Container';
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { sendContact } from '@/app/actions/sendContact';
-import { initialState, type ContactState } from '@/app/actions/contactState';
+import { sendContactFull } from '@/app/actions/sendContactFull';
+import { initialFullState, type ContactFullState } from '@/app/actions/contactFullState';
 
 /* ---------- Layout ---------- */
 const Section = styled.section`
@@ -68,84 +68,158 @@ const FormWrap = styled.form`
   text-align: left;
 `;
 
-const Row = styled.div`
+const FieldRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 clamp(16px, 3vw, 32px);
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const Field = styled.div`
   margin-bottom: 26px;
 `;
 
 const Label = styled.label`
   display: block;
-  margin-bottom: 12px;
-  font-size: 18px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.65;
 `;
 
-const InputBase = css`
+const inputBase = css`
   width: 100%;
   padding: 10px 0 12px 0;
   background: transparent;
   border: none;
   border-bottom: 1px solid ${({ theme }) => theme.colors.black};
   outline: none;
-  font-size: 18px;
+  font-size: 17px;
+  color: ${({ theme }) => theme.colors.black};
+  transition: border-color 0.2s ease;
 
-  &::placeholder { opacity: .5; }
-
-  &:focus {
-    border-bottom-color: ${({ theme }) => theme.colors.red};
-  }
+  &::placeholder { opacity: 0.3; }
+  &:focus { border-bottom-color: ${({ theme }) => theme.colors.red}; }
 `;
 
-const Input = styled.input`${InputBase}`;
+const Input = styled.input`${inputBase}`;
 const Textarea = styled.textarea`
-  ${InputBase}
-  min-height: 140px;
+  ${inputBase}
+  min-height: 110px;
   resize: vertical;
 `;
 
-const Error = styled.div`
-  margin-top: 8px;
-  font-size: 14px;
+const SelectWrap = styled.div`
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid ${({ theme }) => theme.colors.black};
+    border-bottom: 1.5px solid ${({ theme }) => theme.colors.black};
+    pointer-events: none;
+    opacity: 0.5;
+  }
+`;
+
+const Select = styled.select`
+  ${inputBase}
+  appearance: none;
+  cursor: pointer;
+  padding-right: 24px;
+`;
+
+const ErrorMsg = styled.p`
+  margin-top: 6px;
+  font-size: 13px;
   color: ${({ theme }) => theme.colors.red};
+`;
+
+/* Honeypot */
+const HoneypotField = styled.div`
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 `;
 
 const Actions = styled.div`
   display: grid;
   place-items: center;
   margin-top: 28px;
+  gap: 12px;
 `;
 
 const Button = styled.button`
   appearance: none;
-  padding: 12px 42px;
+  padding: 14px 48px;
   border: 1px solid ${({ theme }) => theme.colors.black};
-  background: transparent;
+  background: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.white};
   text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 13px;
   cursor: pointer;
-  transition: background .2s ease, color .2s ease, transform .08s ease;
-  letter-spacing: .02em;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.08s ease;
 
-  &:hover { background: ${({ theme }) => theme.colors.black}; color: ${({ theme }) => theme.colors.white}; }
+  &:hover:not(:disabled) {
+    background: transparent;
+    color: ${({ theme }) => theme.colors.black};
+  }
   &:active { transform: translateY(1px); }
-  &:disabled { opacity: .5; cursor: default; }
-`;
-
-const Success = styled.p`
-  margin-top: 16px;
-  text-align: center;
-  color: green;
+  &:disabled { opacity: 0.45; cursor: default; }
 `;
 
 const GlobalError = styled.p`
-  margin-top: 12px;
-  text-align: center;
+  font-size: 14px;
   color: ${({ theme }) => theme.colors.red};
+  text-align: center;
 `;
 
-/* Botón que usa el estado “pending” de Server Actions */
+const SuccessBox = styled.div`
+  text-align: center;
+  padding: 48px 24px;
+
+  h3 {
+    font-family: ${({ theme }) => theme.fonts.base};
+    font-weight: 400;
+    font-size: clamp(22px, 3.5vw, 32px);
+    margin-bottom: 14px;
+  }
+
+  p {
+    font-size: 15px;
+    opacity: 0.75;
+    line-height: 1.7;
+    max-width: 42ch;
+    margin-inline: auto;
+  }
+`;
+
+const Privacy = styled.p`
+  font-size: 12px;
+  opacity: 0.4;
+  text-align: center;
+  max-width: 50ch;
+`;
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending}>
-      {pending ? 'Enviando…' : 'Enviar'}
+      {pending ? 'Enviando…' : 'Enviar consulta'}
     </Button>
   );
 }
@@ -153,9 +227,12 @@ function SubmitButton() {
 /* ---------- Componente ---------- */
 export default function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, formAction] = useActionState<ContactState, FormData>(sendContact, initialState);
+  const [state, formAction] = useActionState<ContactFullState, FormData>(
+    sendContactFull,
+    initialFullState
+  );
+  const [formTime] = useState(() => Date.now().toString());
 
-  // Limpia el formulario si ok === true
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
@@ -175,37 +252,137 @@ export default function ContactSection() {
             ¡Contáctanos! ¡Nos encantaría conversar sobre el día de su boda!
           </Intro>
 
-          <FormWrap ref={formRef} action={formAction} noValidate>
-            <Row>
-              <Label htmlFor="name">Tu nombre</Label>
-              <Input id="name" name="name" autoComplete="name" />
-              {state?.errors?.name && <Error>{state.errors.name}</Error>}
-            </Row>
+          {state?.ok ? (
+            <SuccessBox>
+              <h3>¡Gracias, ya recibí su mensaje!</h3>
+              <p>
+                Les responderé en menos de 24 horas. Mientras tanto,
+                pueden explorar el portfolio en Instagram.
+              </p>
+            </SuccessBox>
+          ) : (
+            <FormWrap ref={formRef} action={formAction} noValidate>
+              {/* Antispam: Honeypot */}
+              <HoneypotField aria-hidden="true">
+                <label htmlFor="hs-website">No llenar este campo</label>
+                <input
+                  type="text"
+                  id="hs-website"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </HoneypotField>
+              <input type="hidden" name="_t" value={formTime} />
 
-            <Row>
-              <Label htmlFor="email">Tu mail</Label>
-              <Input id="email" name="email" type="email" autoComplete="email" />
-              {state?.errors?.email && <Error>{state.errors.email}</Error>}
-            </Row>
+              {/* Nombre + Teléfono */}
+              <FieldRow>
+                <Field>
+                  <Label htmlFor="cs-name">Nombre completo *</Label>
+                  <Input
+                    id="cs-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Ana García"
+                  />
+                  {state?.errors?.name && <ErrorMsg>{state.errors.name}</ErrorMsg>}
+                </Field>
+                <Field>
+                  <Label htmlFor="cs-phone">WhatsApp / Teléfono *</Label>
+                  <Input
+                    id="cs-phone"
+                    name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="+52 81 1234 5678"
+                  />
+                  {state?.errors?.phone && <ErrorMsg>{state.errors.phone}</ErrorMsg>}
+                </Field>
+              </FieldRow>
 
-            <Row>
-              <Label htmlFor="wedding">Fecha de la boda y lugar</Label>
-              <Input id="wedding" name="wedding" placeholder="dd/mm/aaaa · ciudad/venue" />
-              {state?.errors?.wedding && <Error>{state.errors.wedding}</Error>}
-            </Row>
+              {/* Email */}
+              <Field>
+                <Label htmlFor="cs-email">Correo electrónico *</Label>
+                <Input
+                  id="cs-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="ana@correo.com"
+                />
+                {state?.errors?.email && <ErrorMsg>{state.errors.email}</ErrorMsg>}
+              </Field>
 
-            <Row>
-              <Label htmlFor="message">Tu mensaje</Label>
-              <Textarea id="message" name="message" />
-              {state?.errors?.message && <Error>{state.errors.message}</Error>}
-            </Row>
+              {/* Fecha + Venue */}
+              <FieldRow>
+                <Field>
+                  <Label htmlFor="cs-weddingDate">Fecha de la boda *</Label>
+                  <Input
+                    id="cs-weddingDate"
+                    name="weddingDate"
+                    type="text"
+                    placeholder="15 / nov / 2025"
+                  />
+                  {state?.errors?.weddingDate && <ErrorMsg>{state.errors.weddingDate}</ErrorMsg>}
+                </Field>
+                <Field>
+                  <Label htmlFor="cs-venue">Venue / Lugar</Label>
+                  <Input
+                    id="cs-venue"
+                    name="venue"
+                    type="text"
+                    placeholder="Hacienda San Pedro"
+                  />
+                </Field>
+              </FieldRow>
 
-            <Actions>
-              <SubmitButton />
-              {state?.errors?.global && <GlobalError>{state.errors.global}</GlobalError>}
-              {state?.ok && <Success>¡Gracias! Te responderé muy pronto.</Success>}
-            </Actions>
-          </FormWrap>
+              {/* Servicio */}
+              <Field>
+                <Label htmlFor="cs-service">¿Qué servicio les interesa? *</Label>
+                <SelectWrap>
+                  <Select id="cs-service" name="service" defaultValue="">
+                    <option value="" disabled>Seleccionar…</option>
+                    <option value="fotografia">Solo fotografía</option>
+                    <option value="video">Solo video</option>
+                    <option value="ambos">Fotografía + Video</option>
+                  </Select>
+                </SelectWrap>
+                {state?.errors?.service && <ErrorMsg>{state.errors.service}</ErrorMsg>}
+              </Field>
+
+              {/* ¿Cómo nos encontraste? */}
+              <Field>
+                <Label htmlFor="cs-referral">¿Cómo nos encontraste?</Label>
+                <SelectWrap>
+                  <Select id="cs-referral" name="referral" defaultValue="">
+                    <option value="" disabled>Seleccionar…</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Google">Google</option>
+                    <option value="Recomendación de pareja">Recomendación de otra pareja</option>
+                    <option value="Recomendación de proveedor">Recomendación de proveedor</option>
+                    <option value="Otro">Otro</option>
+                  </Select>
+                </SelectWrap>
+              </Field>
+
+              {/* Mensaje */}
+              <Field>
+                <Label htmlFor="cs-message">Mensaje (opcional)</Label>
+                <Textarea
+                  id="cs-message"
+                  name="message"
+                  placeholder="Cuéntanos un poco sobre su día ideal, estilo de boda o cualquier pregunta que tengan…"
+                />
+              </Field>
+
+              <Actions>
+                <SubmitButton />
+                {state?.errors?.global && <GlobalError>{state.errors.global}</GlobalError>}
+                <Privacy>Tu información es privada y nunca será compartida con terceros.</Privacy>
+              </Actions>
+            </FormWrap>
+          )}
         </Wrap>
       </Container>
     </Section>

@@ -1,0 +1,9 @@
+{
+  "photos": [
+    {
+      "image": "/galeria/photos/0/image.jpg",
+      "alt": "test",
+      "orientation": "landscape"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Hero from './sections/Hero';
 import PortfolioGrid from './sections/PortfolioGrid';
 import CallToAction from './sections/CallToAction';
-
+import { getGalleryPhotos } from '@/lib/gallery';
 
 export const metadata: Metadata = {
   title: 'Las fotografías | Luis Benítez Photography',
@@ -10,11 +10,13 @@ export const metadata: Metadata = {
 };
 
 export default function FotografiasPage() {
+  const photos = getGalleryPhotos();
+
   return (
     <>
-        <Hero />
-        <PortfolioGrid />
-        <CallToAction />
+      <Hero />
+      <PortfolioGrid photos={photos} />
+      <CallToAction />
     </>
   );
 }

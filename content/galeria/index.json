@@ -1,0 +1,74 @@
+{
+  "photos": [
+    {
+      "image": "/galeria/1.jpg",
+      "alt": "Novios caminando por un jardín al atardecer",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/2.jpg",
+      "alt": "Primer baile de los novios bajo luces cálidas",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/3.jpg",
+      "alt": "Ceremonia religiosa en capilla de piedra",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/4.jpg",
+      "alt": "Ramo de novia con flores silvestres",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/5.jpg",
+      "alt": "Pareja riéndose durante la sesión de fotos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/6.jpg",
+      "alt": "Detalle de las alianzas sobre superficie de madera",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/7.jpg",
+      "alt": "Novios bajo un arco floral al aire libre",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/8.jpg",
+      "alt": "Retrato de la novia frente a una ventana",
+      "orientation": "portrait"
+    },
+    {
+      "image": "/galeria/9.jpg",
+      "alt": "Novio esperando en la ceremonia",
+      "orientation": "portrait"
+    },
+    {
+      "image": "/galeria/10.jpg",
+      "alt": "Pareja abrazándose entre la naturaleza",
+      "orientation": "portrait"
+    },
+    {
+      "image": "/galeria/11.jpg",
+      "alt": "Vista panorámica de la recepción iluminada",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/12.jpg",
+      "alt": "Mesa principal decorada con velas y flores",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/13.jpg",
+      "alt": "Momento espontáneo entre invitados durante la fiesta",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/14.jpg",
+      "alt": "Los novios despidiéndose al final de la noche",
+      "orientation": "landscape"
+    }
+  ]
+}

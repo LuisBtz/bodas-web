@@ -3,29 +3,13 @@
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
-
-/* ───────────── Imágenes (tus rutas) ───────────── */
-import g1 from '@/assets/images/home/gallery/g1.webp';
-import g2 from '@/assets/images/home/gallery/g2.webp';
-import g3 from '@/assets/images/home/gallery/g3.webp';
-import g4 from '@/assets/images/home/gallery/g4.webp';
-import g5 from '@/assets/images/home/gallery/g5.webp';
-import g6 from '@/assets/images/home/gallery/g6.webp';
+import { useState } from 'react';
+import Lightbox from '@/components/ui/Lightbox';
 
 /* adorno */
 const DECOR = '/flower3-bl.svg';
 
-type GImg = { src: any; alt: string };
-
-const IMAGES: GImg[] = [
-  { src: g1, alt: 'Pareja celebrando con confeti' },   // columna izquierda (arriba)
-  { src: g2, alt: 'Interior de iglesia' },             // columna izquierda (abajo)
-  { src: g3, alt: 'Novios en marco de telas (alto)' }, // COLUMNA ALTA (3ra imagen)
-  { src: g4, alt: 'Balcón de iglesia (arriba derecha)' }, // derecha (arriba)
-  { src: g5, alt: 'Fachada de iglesia (abajo derecha)' }, // derecha (abajo)
-  { src: g6, alt: 'Pasillo con invitados (top intermedio)' }, // top intermedio
-];
+type GImg = { src: string; alt: string };
 
 /* ───────────── Estilos ───────────── */
 const Section = styled.section`
@@ -75,19 +59,9 @@ const Decor = styled.img`
   }
 `;
 
-/* 
-  LAYOUT DESKTOP (≥851px):
-  - 2 filas (grid-auto-rows)
-  - 4 columnas visibles:
-      col1: 2 thumbs apilados (items 1 y 2)
-      col2: imagen ALTA (item 3) → span 2 filas
-      col3: thumb superior intermedio (item 6)
-      col4: 2 thumbs apilados derecha (items 4 y 5)
-  MOBILE (≤850px): grid 2 cols sin posiciones forzadas
-*/
 const Grid = styled.ul`
   --gap: clamp(14px, 2vw, 22px);
-  --row-h: clamp(160px, 20vw, 260px); /* alto base de cada fila */
+  --row-h: clamp(160px, 20vw, 260px);
 
   list-style: none;
   margin: 0;
@@ -95,26 +69,19 @@ const Grid = styled.ul`
   display: grid;
   gap: var(--gap);
 
-  /* MOBILE por defecto (fluido) */
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: clamp(34vw, 38vw, 42vw);
 
-  /* DESKTOP */
   @media (min-width: 851px) {
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: var(--row-h);
 
-    /* Posicionamiento explícito */
-    > li:nth-child(1) { grid-column: 1; grid-row: 1; }            /* izquierda arriba */
-    > li:nth-child(2) { grid-column: 1; grid-row: 2; }            /* izquierda abajo */
-
-    > li:nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }   /* 3ra imagen → ALTA */
-
-    > li:nth-child(4) { grid-column: 3; grid-row: 1; }            /* derecha arriba */
-    > li:nth-child(5) { grid-column: 3; grid-row: 2; }            /* derecha abajo */
-    > li:nth-child(6) { grid-column: 4; grid-row: 1 / span 2; }            /* top intermedio */
-
-   
+    > li:nth-child(1) { grid-column: 1; grid-row: 1; }
+    > li:nth-child(2) { grid-column: 1; grid-row: 2; }
+    > li:nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }
+    > li:nth-child(4) { grid-column: 3; grid-row: 1; }
+    > li:nth-child(5) { grid-column: 3; grid-row: 2; }
+    > li:nth-child(6) { grid-column: 4; grid-row: 1 / span 2; }
   }
 `;
 
@@ -123,7 +90,7 @@ const Item = styled.li`
   overflow: hidden;
   background: ${({ theme }) => theme.colors.white};
   transition: transform .15s ease, box-shadow .15s ease;
-  &:hover {  box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 14px 32px rgba(0,0,0,.08); }
+  &:hover { box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 14px 32px rgba(0,0,0,.08); }
 
   button {
     position: absolute;
@@ -137,7 +104,7 @@ const Item = styled.li`
 
 const Thumb = styled(Image)`
   object-fit: cover;
-    object-position: bottom;
+  object-position: bottom;
 `;
 
 const Cta = styled.div`
@@ -156,111 +123,12 @@ const Cta = styled.div`
   a:hover { color: ${({ theme }) => theme.colors.red}; border-color: ${({ theme }) => theme.colors.red}; }
 `;
 
-/* ───────────── Lightbox ───────────── */
-const Overlay = styled.div<{ $open: boolean }>`
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: ${({ $open }) => ($open ? 'grid' : 'none')};
-  place-items: center;
-  background: rgba(0,0,0,.92);
-  color: white;
-`;
-
-const Stage = styled.div`
-  position: relative;
-  width: min(96vw, 1400px);
-  height: min(88vh, 900px);
-`;
-
-const BigImg = styled(Image)`
-  object-fit: contain;
-`;
-
-const CloseBtn = styled.button`
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 40px; height: 40px;
-  border: none; background: transparent; cursor: pointer;
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    top: 19px; left: 9px;
-    width: 22px; height: 2px; background: white;
-  }
-  &::before { transform: rotate(45deg); }
-  &::after  { transform: rotate(-45deg); }
-`;
-
-const NavBtn = styled.button<{ $side: 'left' | 'right' }>`
-  position: absolute;
-  top: 50%;
-  ${({ $side }) => ($side === 'left' ? 'left: 8px;' : 'right: 8px;')}
-  transform: translateY(-50%);
-  width: 56px; height: 56px; border-radius: 50%;
-  border: 1px solid rgba(255,255,255,.5);
-  background: rgba(0,0,0,.35);
-  cursor: pointer;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0; margin: auto;
-    width: 10px; height: 10px;
-    border-top: 2px solid #fff; border-right: 2px solid #fff;
-    transform: ${({ $side }) => ($side === 'left' ? 'rotate(-135deg)' : 'rotate(45deg)')};
-  }
-`;
-
-const Counter = styled.div`
-  position: absolute;
-  left: 14px; bottom: 12px;
-  font-size: 14px; opacity: .8;
-`;
-
 /* ───────────── Componente ───────────── */
-export default function Gallery() {
+export default function Gallery({ photos }: { photos: GImg[] }) {
   const [open, setOpen] = useState(false);
   const [idx, setIdx] = useState(0);
 
-  // bloquear scroll al abrir
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, [open]);
-
-  // teclado
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, idx]);
-
-  const next = () => setIdx((i) => (i + 1) % IMAGES.length);
-  const prev = () => setIdx((i) => (i - 1 + IMAGES.length) % IMAGES.length);
-
-  // gestos
-  const startX = useRef<number | null>(null);
-  const onPointerDown = (e: React.PointerEvent) => { startX.current = e.clientX; };
-  const onPointerUp = (e: React.PointerEvent) => {
-    if (startX.current == null) return;
-    const dx = e.clientX - startX.current;
-    const TH = 40;
-    if (dx > TH) prev();
-    else if (dx < -TH) next();
-    startX.current = null;
-  };
-
-  const active = IMAGES[idx];
-  const sizes = useMemo(() => ({ w: active.src.width, h: active.src.height }), [idx]); // por si lo necesitas
+  if (!photos.length) return null;
 
   return (
     <Section aria-labelledby="gallery-title">
@@ -275,8 +143,8 @@ export default function Gallery() {
 
         <GridWrap>
           <Grid>
-            {IMAGES.map((img, i) => (
-              <Item key={i}>
+            {photos.map((img, i) => (
+              <Item key={img.src}>
                 <Thumb
                   src={img.src}
                   alt={img.alt}
@@ -297,34 +165,18 @@ export default function Gallery() {
         </GridWrap>
 
         <Cta>
-          <a href="/galeria">VER GALERÍA COMPLETA →</a>
+          <a href="/fotografias">VER GALERÍA COMPLETA →</a>
         </Cta>
       </Container>
 
-      {/* Lightbox */}
-      <Overlay $open={open} onClick={(e) => e.target === e.currentTarget && setOpen(false)}>
-        <Stage
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Visor de imágenes"
-        >
-          <BigImg
-            key={idx}
-            src={active.src}
-            alt={active.alt}
-            fill
-            sizes="100vw"
-            style={{ objectFit: 'contain' }}
-            priority
-          />
-          <CloseBtn aria-label="Cerrar" onClick={() => setOpen(false)} />
-          <NavBtn $side="left"  aria-label="Anterior" onClick={prev} />
-          <NavBtn $side="right" aria-label="Siguiente" onClick={next} />
-          <Counter>{idx + 1} / {IMAGES.length}</Counter>
-        </Stage>
-      </Overlay>
+      {open && (
+        <Lightbox
+          photos={photos}
+          index={idx}
+          onChange={setIdx}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </Section>
   );
 }

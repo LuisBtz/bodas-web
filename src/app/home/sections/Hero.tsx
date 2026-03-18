@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
-import heroBg from '@/assets/images/home/hero-bg.jpg';
+import heroBg from '@/assets/images/footer/2.jpg';
 
 const Section = styled.section`
   position: relative;
@@ -12,6 +12,15 @@ const Section = styled.section`
   place-items: center;
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
+`;
+
+const Overlay = styled.div<{ $show: boolean }>`
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  opacity: ${({ $show }) => ($show ? 1 : 0)};
+  transition: opacity 700ms ease;
+  z-index: 0;
 `;
 
 const Inner = styled.div`
@@ -123,6 +132,7 @@ export const BrandMark = styled.img`
 `;
 
 export default function Hero() {
+  const [overlayShow, setOverlayShow] = useState(false);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -130,20 +140,18 @@ export default function Hero() {
 
     // Si ya hay scroll o el usuario prefiere menos movimiento → mostrar de inmediato
     if (window.scrollY > 20 || noMotion) {
+      setOverlayShow(true);
       setShow(true);
       return;
     }
 
-    // Esperamos la señal del Header (cuando termina de bajar)
-    const onDone = () => setShow(true);
-    document.addEventListener('intro:headerDone', onDone, { once: true });
-
-    // Fallback por si el evento no llegara (p. ej. navegación directa a otra ruta)
-    const fallback = setTimeout(() => setShow(true), 1200);
+    // Overlay aparece primero, luego el texto
+    const overlayTimer = setTimeout(() => setOverlayShow(true), 700);
+    const textTimer = setTimeout(() => setShow(true), 1500);
 
     return () => {
-      document.removeEventListener('intro:headerDone', onDone);
-      clearTimeout(fallback);
+      clearTimeout(overlayTimer);
+      clearTimeout(textTimer);
     };
   }, []);
 
@@ -159,7 +167,8 @@ export default function Hero() {
         style={{ objectFit: 'cover', objectPosition: 'center', zIndex: -1 }}
         fetchPriority="high"
       />
-      <Container>
+      <Overlay $show={overlayShow} />
+      <Container style={{ position: 'relative', zIndex: 1 }}>
         <Inner data-show={show ? 'true' : undefined}>
           <BrandMark
             src="/Vector.svg"

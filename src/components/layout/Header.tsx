@@ -72,7 +72,7 @@ const BarHero = styled.header<{
   transform: translateY(${({ $intro }) => ($intro === 'from' ? '-100%' : '0%')});
   transition:
     transform ${INTRO_MS}ms ease,
-    opacity 200ms ease;
+    opacity 480ms ease;
 `;
 
 /* Barra fija blanca que aparece tras 100vh con slide */
@@ -258,6 +258,7 @@ function MenuLink({ href, label, onClick }: { href: string; label: string; onCli
 /* ---------- Componente ---------- */
 export default function Header() {
   const pathname = usePathname();
+  const isHome = pathname === '/';
 
   const [isPastHero, setIsPastHero] = useState(false);
   const [showSticky, setShowSticky] = useState(false);
@@ -266,6 +267,9 @@ export default function Header() {
 
   // Intro: 'from' (arriba, listo para animar) → 'to' (baja) → 'off' (estado normal)
   const [intro, setIntro] = useState<'off' | 'from' | 'to'>('off');
+
+  // Solo homepage: controla si la barra hero ya es visible (fade junto al texto)
+  const [heroBarReady, setHeroBarReady] = useState(false);
 
   const prevY = useRef(0);
   const accum = useRef(0);
@@ -277,24 +281,28 @@ export default function Header() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const atTop = window.scrollY <= 10;
 
+    if (isHome && atTop && !reduce) {
+      // Homepage: sin slide, fade junto al texto del hero a los 1500ms
+      const timer = setTimeout(() => setHeroBarReady(true), 1500);
+      return () => clearTimeout(timer);
+    }
+
     if (atTop && !reduce) {
-      // primer frame: posición inicial arriba (-100%)
+      // Otras páginas: slide-down normal
       setIntro('from');
-      // siguiente frame: animar a 0
       requestAnimationFrame(() => setIntro('to'));
 
       const done = setTimeout(() => {
-        setIntro('off'); // dejamos el header en su sitio
-        // avisamos al Hero que puede mostrar su contenido
+        setIntro('off');
         document.dispatchEvent(new Event('intro:headerDone'));
       }, INTRO_MS + 30);
 
       return () => clearTimeout(done);
     } else {
-      // si no estamos arriba o reduce motion, no hay intro
+      // Ya hay scroll o reduce motion → mostrar inmediatamente
       setIntro('off');
-      // avisa al hero para que no espere
       document.dispatchEvent(new Event('intro:headerDone'));
+      if (isHome) setHeroBarReady(true);
     }
   }, []);
 
@@ -424,8 +432,12 @@ export default function Header() {
     </>
   );
 
-  // La barra de hero es visible si NO pasaste 100vh o si está corriendo la intro
-  const heroVisible = !isPastHero || intro !== 'off';
+  // La barra de hero es visible según la página:
+  // - Homepage: solo cuando heroBarReady y no pasó el hero
+  // - Otras páginas: cuando no pasó 100vh o mientras corre la intro
+  const heroVisible = isHome
+    ? heroBarReady && !isPastHero
+    : !isPastHero || intro !== 'off';
 
   return (
     <>
