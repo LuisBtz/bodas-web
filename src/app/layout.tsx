@@ -4,7 +4,11 @@ import Providers from './Providers';
 import MainLayout from '@/components/layout/MainLayout'; // 👈 importa tu layout
 import { Cormorant } from 'next/font/google';
 
-export const metadata: Metadata = { title: 'Luis Benítez', description: 'Fotografía' };
+export const metadata: Metadata = {
+  title: 'Luis Benítez',
+  description: 'Fotografía',
+  robots: { index: false, follow: false },
+};
 
 const cormorant = Cormorant({
   subsets: ['latin'],
