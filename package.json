@@ -14,7 +14,7 @@
     "@react-email/components": "^0.5.3",
     "@react-email/render": "^1.2.3",
     "gray-matter": "^4.0.3",
-    "next": "15.5.3",
+    "next": "^15.5.13",
     "next-mdx-remote": "^6.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
