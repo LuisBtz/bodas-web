@@ -1,14 +1,16 @@
 import { config, fields, collection } from '@keystatic/core';
 import { block, wrapper } from '@keystatic/core/content-components';
 
-// Usa github mode solo cuando las credenciales OAuth están configuradas (producción).
-// Sin credenciales → local mode (sin auth, directo al filesystem).
-const storage = process.env.KEYSTATIC_GITHUB_CLIENT_ID
-  ? ({
-      kind: 'github',
-      repo: 'LuisBtz/bodas-web',
-    } as const)
-  : ({ kind: 'local' } as const);
+// Usa github mode solo en producción (cuando NODE_ENV=production y hay credenciales OAuth).
+// En desarrollo → local mode (sin auth, directo al filesystem).
+const isProduction = process.env.NODE_ENV === 'production';
+const storage =
+  isProduction && process.env.KEYSTATIC_GITHUB_CLIENT_ID
+    ? ({
+        kind: 'github',
+        repo: 'LuisBtz/bodas-web',
+      } as const)
+    : ({ kind: 'local' } as const);
 
 // ─── Helpers de campos comunes ────────────────────────────────────────────────
 const altField  = fields.text({ label: 'Texto alternativo', validation: { isRequired: true } });
@@ -26,6 +28,21 @@ const imgField = (dir: 'blog' | 'bodas-reales') =>
 // ─── Fábrica de componentes por colección ────────────────────────────────────
 // Cada colección tiene sus propios bloques para que las imágenes vayan
 // al subdirectorio correcto (public/blog vs public/bodas-reales).
+
+/** Genera N slots de imagen (srcN + altN) para un block */
+function makeImageSlots(dir: 'blog' | 'bodas-reales', count: number) {
+  const schema: Record<string, ReturnType<typeof fields.image> | ReturnType<typeof fields.text>> = {};
+  for (let i = 1; i <= count; i++) {
+    schema[`src${i}`] = fields.image({
+      label: `Imagen ${i}`,
+      directory: `public/${dir}`,
+      publicPath: `/${dir}`,
+      validation: { isRequired: i <= 2 },
+    });
+    schema[`alt${i}`] = fields.text({ label: `Alt ${i}` });
+  }
+  return schema;
+}
 
 function makePhotoComponents(dir: 'blog' | 'bodas-reales') {
   const img = imgField(dir);
@@ -65,7 +82,19 @@ function makePhotoComponents(dir: 'blog' | 'bodas-reales') {
     },
   });
 
-  return { FullPhoto, Photo, PhotoRow };
+  // Carousel: 3 visible desktop, 2 mobile. Up to 8 images.
+  const Carousel = block({
+    label: 'Carrusel de fotos (horizontal)',
+    schema: makeImageSlots(dir, 8),
+  });
+
+  // MasonryGallery: 3-column masonry grid. Up to 12 images.
+  const MasonryGallery = block({
+    label: 'Galería masonry (grid 3 columnas)',
+    schema: makeImageSlots(dir, 12),
+  });
+
+  return { FullPhoto, Photo, PhotoRow, Carousel, MasonryGallery };
 }
 
 // Callout y PullQuote usan wrapper (tienen children de texto/markdown).

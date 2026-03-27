@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import { getAllPosts, getPostBySlug } from '@/lib/blog';
 import { mdxComponents } from '@/components/mdx/MdxComponents';
+import PostLightboxProvider from '@/components/mdx/PostLightboxProvider';
 import ArticleShell from './ArticleShell';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -55,6 +57,12 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  // Resolve relative image paths to absolute
+  const resolvedContent = post.content.replace(
+    /!\[([^\]]*)\]\((?!\/|https?:\/\/)([^)]+)\)/g,
+    (_: string, alt: string, path: string) => `![${alt}](/blog/${slug}/${path})`,
+  );
+
   /* JSON-LD structured data */
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -83,15 +91,17 @@ export default async function PostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ArticleShell post={post}>
-        <MDXRemote
-          source={post.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-            },
-          }}
-        />
+        <PostLightboxProvider>
+          <MDXRemote
+            source={resolvedContent}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkUnwrapImages],
+              },
+            }}
+          />
+        </PostLightboxProvider>
       </ArticleShell>
     </>
   );

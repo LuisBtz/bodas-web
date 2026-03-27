@@ -1,73 +1,303 @@
 {
   "photos": [
     {
-      "image": "/galeria/1.jpg",
-      "alt": "Novios caminando por un jardín al atardecer",
+      "image": "/galeria/Gallery-010.webp",
+      "alt": "Novios tomados de la mano caminando entre árboles en plaza al aire libre durante sesión fotográfica",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/2.jpg",
-      "alt": "Primer baile de los novios bajo luces cálidas",
+      "image": "/galeria/Gallery-060.webp",
+      "alt": "Pareja de novios a punto de besarse frente al altar de madera tallada en iglesia histórica",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/3.jpg",
-      "alt": "Ceremonia religiosa en capilla de piedra",
+      "image": "/galeria/Gallery-013.webp",
+      "alt": "Novia de pie con ramo blanco y novio sentado en escaleras rojas de edificio histórico",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/4.jpg",
-      "alt": "Ramo de novia con flores silvestres",
+      "image": "/galeria/Gallery-024.webp",
+      "alt": "Pareja de novios caminando en esquina con semáforo en verde junto a edificio histórico de Monterrey",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/5.jpg",
-      "alt": "Pareja riéndose durante la sesión de fotos",
+      "image": "/galeria/Gallery-015.webp",
+      "alt": "Novio emocionado cubriéndose la boca al ver a la novia por primera vez en first look",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/6.jpg",
-      "alt": "Detalle de las alianzas sobre superficie de madera",
+      "image": "/galeria/Gallery-059.webp",
+      "alt": "Novios besándose en pista de baile rodeados de confeti dorado durante boda elegante",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/7.jpg",
-      "alt": "Novios bajo un arco floral al aire libre",
+      "image": "/galeria/Gallery-056.webp",
+      "alt": "Vista del altar de iglesia durante ceremonia de boda con sacerdote, novios y flores blancas",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/8.jpg",
-      "alt": "Retrato de la novia frente a una ventana",
-      "orientation": "portrait"
-    },
-    {
-      "image": "/galeria/9.jpg",
-      "alt": "Novio esperando en la ceremonia",
-      "orientation": "portrait"
-    },
-    {
-      "image": "/galeria/10.jpg",
-      "alt": "Pareja abrazándose entre la naturaleza",
-      "orientation": "portrait"
-    },
-    {
-      "image": "/galeria/11.jpg",
-      "alt": "Vista panorámica de la recepción iluminada",
+      "image": "/galeria/Gallery-022.webp",
+      "alt": "Pareja de recién casados cruzando calle empedrada del centro de Monterrey con montañas al fondo",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/12.jpg",
-      "alt": "Mesa principal decorada con velas y flores",
+      "image": "/galeria/Gallery-004.webp",
+      "alt": "Ramas de árbol frondoso con hojas verdes contra cielo blanco en exterior",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/13.jpg",
-      "alt": "Momento espontáneo entre invitados durante la fiesta",
+      "image": "/galeria/Gallery-001.webp",
+      "alt": "Novia con vestido de princesa y velo junto a hombre de traje negro en ceremonia de boda",
       "orientation": "landscape"
     },
     {
-      "image": "/galeria/14.jpg",
-      "alt": "Los novios despidiéndose al final de la noche",
+      "image": "/galeria/Gallery-002.webp",
+      "alt": "Invitados bailando en recepción de boda junto a barra Fiesta Mix con luces de colores",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-003.webp",
+      "alt": "Novia sonriendo y girando en pista de baile durante recepción de boda con letrero SHOTS",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-005.webp",
+      "alt": "Novios besándose a la salida de la iglesia rodeados de burbujas y familiares aplaudiendo",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-006.webp",
+      "alt": "Pareja de novios bailando vals en salón de boda con invitados observando al fondo",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-007.webp",
+      "alt": "Novio con micrófono dando brindis junto a novia sonriente en pista de baile con mesa de bocadillos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-008.webp",
+      "alt": "Pareja de novios posando en vestíbulo elegante con piano de cola y puerta de madera tallada",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-009.webp",
+      "alt": "Pareja de recién casados abrazados en escaleras rojas frente a edificio histórico blanco",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-011.webp",
+      "alt": "Pareja de novios posando abrazados en escalinata monumental de edificio neoclásico",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-012.webp",
+      "alt": "Novia sonriendo tomando la mano del novio en escalinata exterior durante sesión first look",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-014.webp",
+      "alt": "Novios besándose con ramo de flores blancas y eucalipto en sesión fotográfica al aire libre",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-016.webp",
+      "alt": "Novios riendo juntos revisando ramo de novia en escalinata exterior durante sesión de fotos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-017.webp",
+      "alt": "Novia de espalda con velo caminando hacia novio de espaldas frente a escalinata histórica",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-018.webp",
+      "alt": "Pareja de recién casados aplaudiendo emocionados frente al altar de iglesia católica con sacerdote",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-019.webp",
+      "alt": "Candelabro de cristal dorado colgante en iglesia con vitrales coloridos de cruces y motivos religiosos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-020.webp",
+      "alt": "Novios tomados de la mano caminando felices por calle empedrada frente a edificio histórico de Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-021.webp",
+      "alt": "Novios caminando por acera del centro histórico de Monterrey con faroles de hierro forjado",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-023.webp",
+      "alt": "Novios tomados de la mano caminando felices frente a edificio neoclásico en Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-025.webp",
+      "alt": "Novios tomados de la mano recargados en columna de cantera con faroles y skyline de Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-026.webp",
+      "alt": "Pareja de recién casados posando junto a columna de piedra en calle histórica de Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-027.webp",
+      "alt": "Novios caminando tomados de la mano frente al Palacio Federal de Monterrey con bandera mexicana",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-028.webp",
+      "alt": "Pareja de novios de espaldas tomados de la mano frente al Palacio de Gobierno de Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-029.webp",
+      "alt": "Novio abrazando y besando a novia sonriente con torre de iglesia al fondo en plaza de Monterrey",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-030.webp",
+      "alt": "Árbol de hojas verdes plateadas frente a edificio blanco con farol y cielo despejado",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-031.webp",
+      "alt": "Luna en cuarto creciente en cielo azul turquesa despejado durante el día",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-032.webp",
+      "alt": "Novios llegando a iglesia en estacionamiento con dama de honor y familiares observando",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-033.webp",
+      "alt": "Mano de mujer con anillo de compromiso y uñas rosas sobre mesa decorada con pétalos de rosa rojos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-034.webp",
+      "alt": "Hombre arrodillado pidiendo matrimonio con letrero MARRY ME iluminado y pétalos de rosa rojos",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-035.webp",
+      "alt": "Pareja descubriendo el sexo de su bebé con humo rosa en fiesta gender reveal con letrero BABY",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-036.webp",
+      "alt": "Futuros padres abrazándose emocionados con humo rosa y chispas en fiesta de revelación de género",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-037.webp",
+      "alt": "Decoración de mesa de boda elegante con velas, flores blancas en tubos de vidrio sobre mesa espejo",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-038.webp",
+      "alt": "Vista del altar de iglesia católica durante ceremonia de boda con novios arrodillados y sacerdote",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-039.webp",
+      "alt": "Centro de mesa con rosas blancas y eucalipto en florero de vidrio para decoración de boda",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-040.webp",
+      "alt": "Novio cargando a novia en dip kiss a la salida de iglesia con fuentes de chispas en la noche",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-041.webp",
+      "alt": "Pareja de novios posando juntos frente a pared blanca, novia con vestido de princesa y pelo rojo",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-042.webp",
+      "alt": "Salón de bodas elegante con decoración de telas blancas en techo, mesas redondas y escenario con luces neón",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-043.webp",
+      "alt": "Novia y novio sentados en reclinatorio durante ceremonia religiosa con lectora en púlpito de iglesia",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-044.webp",
+      "alt": "Novia de pelo rojo abrazando al novio sonriendo durante primer baile en recepción de boda",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-045.webp",
+      "alt": "Pareja de novios sentados frente al altar con imagen de la Virgen de Guadalupe en iglesia católica",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-046.webp",
+      "alt": "Novia entrando al altar acompañada por sus padres en iglesia con órgano y candelabro de cristal",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-047.webp",
+      "alt": "Torre de iglesia barroca blanca con reloj y ornamentos religiosos en Monterrey contra cielo azul",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-048.webp",
+      "alt": "Pareja de recién casados entrando a salón de recepción por pasillo de cortinas blancas con velas",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-049.webp",
+      "alt": "Novios bailando vals en pista iluminada con banda en vivo y pantalla LED en recepción de boda",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-050.webp",
+      "alt": "Pareja de novios dando votos matrimoniales tomados de las manos frente al altar de iglesia colonial",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-051.webp",
+      "alt": "Vista general de iglesia católica llena de invitados durante ceremonia de boda con frescos en ábside",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-052.webp",
+      "alt": "Torre campanario barroca blanca de iglesia con campanas y cruz en lo alto contra cielo nublado",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-053.webp",
+      "alt": "Novios sonriendo a cámara junto a campanas históricas de iglesia en terraza de ladrillo",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-054.webp",
+      "alt": "Novios divirtiéndose en pista de baile con luces neón turquesa durante recepción de boda moderna",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-055.webp",
+      "alt": "Pareja de novios bailando con fuentes de chispas y luces de escenario en recepción de boda",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-057.webp",
+      "alt": "Novio arrodillado colocando tenis blancos a la novia durante la recepción de boda",
+      "orientation": "landscape"
+    },
+    {
+      "image": "/galeria/Gallery-058.webp",
+      "alt": "Recién casados mostrando sus anillos de bodas sonriendo en mesa de honor con flores blancas",
       "orientation": "landscape"
     }
   ]

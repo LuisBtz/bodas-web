@@ -6,13 +6,21 @@ import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import type { GalleryPhoto } from '@/lib/gallery';
 import Lightbox from '@/components/ui/Lightbox';
+import { useColumnCount, distributeColumns } from '@/hooks/useColumnCount';
 
-/* ─── aspect-ratio map ─── */
-const ASPECT: Record<string, string> = {
-  landscape: '3 / 2',
-  portrait:  '2 / 3',
-  square:    '1 / 1',
+/* ─── dimension helpers ─── */
+const BASE_W = 800;
+const HEIGHTS: Record<string, number> = {
+  landscape: 533,
+  portrait: 1200,
+  square: 800,
 };
+
+const BREAKPOINTS = [
+  { minWidth: 1024, cols: 3 },
+  { minWidth: 700, cols: 2 },
+  { minWidth: 0, cols: 1 },
+];
 
 /* --------------------------------- estilos -------------------------------- */
 
@@ -21,18 +29,21 @@ const Section = styled.section`
   background: ${({ theme }) => theme.colors.white};
 `;
 
-const Masonry = styled.div`
-  column-count: 3;
-  column-gap: 24px;
+const Columns = styled.div`
+  display: flex;
+  gap: 24px;
 
   @media ${({ theme }) => theme.media.mdDown} {
-    column-count: 2;
-    column-gap: 20px;
+    gap: 20px;
   }
   @media ${({ theme }) => theme.media.smDown} {
-    column-count: 1;
-    column-gap: 0;
+    gap: 0;
   }
+`;
+
+const Column = styled.div`
+  flex: 1;
+  min-width: 0;
 `;
 
 const Item = styled.button`
@@ -43,20 +54,17 @@ const Item = styled.button`
   border: 0;
   background: none;
   cursor: zoom-in;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  page-break-inside: avoid;
 
-  &:focus-visible { outline: 2px dashed ${({ theme }) => theme.colors.red}; }
-`;
+  &:focus-visible {
+    outline: 2px dashed ${({ theme }) => theme.colors.red};
+  }
 
-const Fig = styled.figure<{ $aspect: string }>`
-  margin: 0;
-  position: relative;
-  width: 100%;
-  aspect-ratio: ${({ $aspect }) => $aspect};
-  overflow: hidden;
-  background: ${({ theme }) => theme.colors.cream};
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: ${({ theme }) => theme.colors.cream};
+  }
 `;
 
 /* -------------------------------- componente ------------------------------- */
@@ -68,10 +76,19 @@ interface Props {
 export default function PortfolioGrid({ photos }: Props) {
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const cols = useColumnCount(BREAKPOINTS);
 
   const lightboxPhotos = useMemo(
     () => photos.map((p) => ({ src: p.image, alt: p.alt })),
     [photos],
+  );
+
+  const columns = useMemo(
+    () => distributeColumns(
+      photos.map((p, i) => ({ photo: p, originalIndex: i })),
+      cols,
+    ),
+    [photos, cols],
   );
 
   const sizes = '(min-width: 1200px) 33vw, (min-width: 700px) 50vw, 100vw';
@@ -81,25 +98,30 @@ export default function PortfolioGrid({ photos }: Props) {
   return (
     <Section>
       <Container>
-        <Masonry>
-          {photos.map((p, i) => (
-            <Item
-              key={p.image + i}
-              onClick={() => { setIndex(i); setOpen(true); }}
-              aria-label={p.alt || 'Ver imagen en grande'}
-            >
-              <Fig $aspect={ASPECT[p.orientation] ?? '3 / 2'}>
-                <Image
-                  src={p.image}
-                  alt={p.alt || ''}
-                  fill
-                  sizes={sizes}
-                  style={{ objectFit: 'cover' }}
-                />
-              </Fig>
-            </Item>
+        <Columns>
+          {columns.map((col, colIdx) => (
+            <Column key={colIdx}>
+              {col.map(({ photo: p, originalIndex: i }) => (
+                <Item
+                  key={p.image + i}
+                  onClick={() => {
+                    setIndex(i);
+                    setOpen(true);
+                  }}
+                  aria-label={p.alt || 'Ver imagen en grande'}
+                >
+                  <Image
+                    src={p.image}
+                    alt={p.alt || ''}
+                    width={BASE_W}
+                    height={HEIGHTS[p.orientation] ?? 533}
+                    sizes={sizes}
+                  />
+                </Item>
+              ))}
+            </Column>
           ))}
-        </Masonry>
+        </Columns>
       </Container>
 
       {open && (

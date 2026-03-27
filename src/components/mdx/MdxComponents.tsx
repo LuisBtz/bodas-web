@@ -3,10 +3,15 @@
  * next-mdx-remote/rsc evalúa el MDX en el servidor; los componentes
  * deben ser referencias resolvibles en ese contexto, no client references.
  * Usamos inline styles en vez de styled-components para evitar la frontera.
+ *
+ * Lightbox: cada imagen clickeable lleva data-lightbox-src/data-lightbox-alt.
+ * PostLightboxProvider (client) captura clicks vía event delegation.
  */
 import NextImage from 'next/image';
 import type { MDXComponents } from 'mdx/types';
 import type { CSSProperties, ReactNode } from 'react';
+import { MdxCarousel } from './MdxGalleries';
+import { MdxMasonry } from './MdxGalleries';
 
 /* ─────────────────────────────────────────────
    Constantes de diseño (valores del tema)
@@ -176,22 +181,41 @@ function A({ children, href }: { children?: ReactNode; href?: string }) {
 /* ── img (markdown: ![alt](src)) ── */
 function MdxImg({ src, alt }: React.ImgHTMLAttributes<HTMLImageElement>) {
   if (!src || typeof src !== 'string') return null;
+
+  const isAbsolute = src.startsWith('/') || src.startsWith('http');
+
   return (
     <figure style={{ ...prose, marginBlock: '32px', margin: '32px auto' }}>
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: '3 / 2',
-        overflow: 'hidden',
-        background: T.cream,
-      }}>
-        <NextImage
-          src={src}
-          alt={alt ?? ''}
-          fill
-          sizes="(max-width: 850px) 92vw, 720px"
-          style={{ objectFit: 'cover' }}
-        />
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '3 / 2',
+          overflow: 'hidden',
+          background: T.cream,
+          cursor: 'zoom-in',
+        }}
+        {...(isAbsolute
+          ? { 'data-lightbox-src': src, 'data-lightbox-alt': alt ?? '' }
+          : {})}
+      >
+        {isAbsolute ? (
+          <NextImage
+            src={src}
+            alt={alt ?? ''}
+            fill
+            sizes="(max-width: 850px) 92vw, 720px"
+            style={{ objectFit: 'cover' }}
+          />
+        ) : (
+          // Fallback for relative paths (prevents URL constructor error)
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={alt ?? ''}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        )}
       </div>
     </figure>
   );
@@ -210,15 +234,21 @@ interface PhotoProps {
 
 /** Foto de ancho completo, cinematográfica */
 export function FullPhoto({ src, alt, caption, aspect }: PhotoProps) {
+  if (!src) return null;
   return (
     <figure style={{ width: '100%', marginBlock: 'clamp(40px, 6vw, 80px)', marginInline: 0 }}>
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: aspect ?? '16 / 9',
-        overflow: 'hidden',
-        background: T.cream,
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: aspect ?? '16 / 9',
+          overflow: 'hidden',
+          background: T.cream,
+          cursor: 'zoom-in',
+        }}
+        data-lightbox-src={src}
+        data-lightbox-alt={alt}
+      >
         <NextImage
           src={src}
           alt={alt}
@@ -231,7 +261,7 @@ export function FullPhoto({ src, alt, caption, aspect }: PhotoProps) {
         <figcaption style={{
           textAlign: 'center',
           fontStyle: 'italic',
-          fontSize: '13px',
+          fontSize: '16px',
           opacity: 0.55,
           marginTop: '10px',
           paddingInline: '20px',
@@ -245,6 +275,7 @@ export function FullPhoto({ src, alt, caption, aspect }: PhotoProps) {
 
 /** Foto centrada con ancho prose */
 export function Photo({ src, alt, caption, aspect }: PhotoProps) {
+  if (!src) return null;
   return (
     <figure style={{
       maxWidth: '720px',
@@ -252,13 +283,18 @@ export function Photo({ src, alt, caption, aspect }: PhotoProps) {
       paddingInline: 'clamp(20px, 5vw, 48px)',
       marginBlock: 'clamp(32px, 5vw, 56px)',
     }}>
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: aspect ?? '3 / 2',
-        overflow: 'hidden',
-        background: T.cream,
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: aspect ?? '3 / 2',
+          overflow: 'hidden',
+          background: T.cream,
+          cursor: 'zoom-in',
+        }}
+        data-lightbox-src={src}
+        data-lightbox-alt={alt}
+      >
         <NextImage
           src={src}
           alt={alt}
@@ -271,7 +307,7 @@ export function Photo({ src, alt, caption, aspect }: PhotoProps) {
         <figcaption style={{
           textAlign: 'center',
           fontStyle: 'italic',
-          fontSize: '13px',
+          fontSize: '16px',
           opacity: 0.55,
           marginTop: '10px',
         }}>
@@ -315,15 +351,21 @@ export function PhotoRow({ src1, alt1, caption1, aspect1, src2, alt2, caption2, 
 
 /** Foto individual dentro de PhotoRow */
 export function RowPhoto({ src, alt, caption, aspect }: PhotoProps) {
+  if (!src) return null;
   return (
     <figure style={{ flex: '1 1 260px', minWidth: '200px', margin: 0 }}>
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        aspectRatio: aspect ?? '2 / 3',
-        overflow: 'hidden',
-        background: T.cream,
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: aspect ?? '2 / 3',
+          overflow: 'hidden',
+          background: T.cream,
+          cursor: 'zoom-in',
+        }}
+        data-lightbox-src={src}
+        data-lightbox-alt={alt}
+      >
         <NextImage
           src={src}
           alt={alt}
@@ -336,7 +378,7 @@ export function RowPhoto({ src, alt, caption, aspect }: PhotoProps) {
         <figcaption style={{
           textAlign: 'center',
           fontStyle: 'italic',
-          fontSize: '12px',
+          fontSize: '14px',
           opacity: 0.5,
           marginTop: '8px',
         }}>
@@ -430,4 +472,7 @@ export const mdxComponents: MDXComponents = {
   RowPhoto,
   Callout,
   PullQuote,
+  // Galerías (client components):
+  Carousel: MdxCarousel,
+  MasonryGallery: MdxMasonry,
 };

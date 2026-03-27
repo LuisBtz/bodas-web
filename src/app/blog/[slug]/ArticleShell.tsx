@@ -38,7 +38,7 @@ const TagRow = styled.div`
 `;
 
 const Tag = styled.span`
-  font-size: 11px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   border: 1px solid ${({ theme }) => theme.colors.black};
@@ -87,7 +87,7 @@ const PostCta = styled.section`
 const CtaEyebrow = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 11px;
+  font-size: 14px;
   opacity: 0.55;
   margin-bottom: 16px;
 `;
@@ -117,7 +117,7 @@ const CtaBtn = styled(Link)`
   color: ${({ theme }) => theme.colors.white};
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 13px;
+  font-size: 16px;
   transition: background 0.2s ease, color 0.2s ease, transform 0.08s ease;
   border: 1px solid ${({ theme }) => theme.colors.black};
 

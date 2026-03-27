@@ -11,10 +11,11 @@ import AuthorBio from '@/components/ui/AuthorBio';
 const HeroWrap = styled.div`
   position: relative;
   width: 100%;
-  height: 100svh;
-  min-height: 560px;
+  margin-top: 72px;
+  height: calc(100svh - 72px);
+  min-height: 520px;
   overflow: hidden;
-  background: #111;
+  background: ${({ theme }) => theme.colors.cream};
 `;
 
 const HeroGradient = styled.div`
@@ -23,8 +24,8 @@ const HeroGradient = styled.div`
   background: linear-gradient(
     to bottom,
     transparent 30%,
-    rgba(0, 0, 0, 0.25) 60%,
-    rgba(0, 0, 0, 0.72) 100%
+    rgba(255, 248, 244, 0.35) 60%,
+    rgba(255, 248, 244, 0.88) 100%
   );
   z-index: 1;
 `;
@@ -36,11 +37,11 @@ const HeroContent = styled.div`
   right: 0;
   z-index: 2;
   padding: clamp(32px, 5vw, 64px) clamp(24px, 6vw, 80px);
-  color: #fff;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 const HeroEyebrow = styled.p`
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   opacity: 0.65;
@@ -60,7 +61,7 @@ const HeroLocation = styled.p`
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   opacity: 0.75;
@@ -85,9 +86,9 @@ const ScrollHint = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.black};
   opacity: 0.4;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 `;
@@ -95,7 +96,7 @@ const ScrollHint = styled.div`
 const ScrollLine = styled.div`
   width: 1px;
   height: 48px;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.black};
 `;
 
 /* ─── Meta strip ─── */
@@ -127,14 +128,14 @@ const MetaItem = styled.div`
 `;
 
 const MetaLabel = styled.span`
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   opacity: 0.45;
 `;
 
 const MetaValue = styled.span`
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: 0.05em;
 `;
 
@@ -155,7 +156,7 @@ const TagList = styled.div`
 `;
 
 const Tag = styled.span`
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   border: 1px solid ${({ theme }) => theme.colors.black};
@@ -164,7 +165,7 @@ const Tag = styled.span`
 `;
 
 const BackLink = styled(Link)`
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   opacity: 0.5;
@@ -194,7 +195,7 @@ const PostCta = styled.section`
 const CtaEyebrow = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 11px;
+  font-size: 14px;
   opacity: 0.45;
   margin-bottom: 16px;
 `;

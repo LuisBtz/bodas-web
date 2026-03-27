@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import { getAllBodasReales, getBodaRealBySlug } from '@/lib/bodas-reales';
 import { mdxComponents } from '@/components/mdx/MdxComponents';
+import PostLightboxProvider from '@/components/mdx/PostLightboxProvider';
 import BodaRealShell from './BodaRealShell';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -54,6 +56,12 @@ export default async function BodaRealPage({ params }: Props) {
   const allBodas = getAllBodasReales();
   const index = allBodas.findIndex((b) => b.slug === slug);
 
+  // Resolve relative image paths (e.g. ![](Gallery-022.webp)) to absolute
+  const resolvedContent = boda.content.replace(
+    /!\[([^\]]*)\]\((?!\/|https?:\/\/)([^)]+)\)/g,
+    (_: string, alt: string, path: string) => `![${alt}](/bodas-reales/${slug}/${path})`,
+  );
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -81,15 +89,17 @@ export default async function BodaRealPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <BodaRealShell boda={boda} index={index}>
-        <MDXRemote
-          source={boda.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-            },
-          }}
-        />
+        <PostLightboxProvider>
+          <MDXRemote
+            source={resolvedContent}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkUnwrapImages],
+              },
+            }}
+          />
+        </PostLightboxProvider>
       </BodaRealShell>
     </>
   );

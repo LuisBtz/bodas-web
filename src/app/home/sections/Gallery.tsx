@@ -2,14 +2,20 @@
 
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
-import Image from 'next/image';
-import { useState } from 'react';
+import NextImage from 'next/image';
+import { useMemo, useState } from 'react';
 import Lightbox from '@/components/ui/Lightbox';
+import { useColumnCount, distributeColumns } from '@/hooks/useColumnCount';
 
 /* adorno */
 const DECOR = '/flower3-bl.svg';
 
 type GImg = { src: string; alt: string };
+
+const BREAKPOINTS = [
+  { minWidth: 851, cols: 3 },
+  { minWidth: 0, cols: 2 },
+];
 
 /* ───────────── Estilos ───────────── */
 const Section = styled.section`
@@ -59,52 +65,40 @@ const Decor = styled.img`
   }
 `;
 
-const Grid = styled.ul`
-  --gap: clamp(14px, 2vw, 22px);
-  --row-h: clamp(160px, 20vw, 260px);
-
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: var(--gap);
-
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: clamp(34vw, 38vw, 42vw);
-
-  @media (min-width: 851px) {
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: var(--row-h);
-
-    > li:nth-child(1) { grid-column: 1; grid-row: 1; }
-    > li:nth-child(2) { grid-column: 1; grid-row: 2; }
-    > li:nth-child(3) { grid-column: 2; grid-row: 1 / span 2; }
-    > li:nth-child(4) { grid-column: 3; grid-row: 1; }
-    > li:nth-child(5) { grid-column: 3; grid-row: 2; }
-    > li:nth-child(6) { grid-column: 4; grid-row: 1 / span 2; }
-  }
+const Columns = styled.div`
+  display: flex;
+  gap: clamp(14px, 2vw, 22px);
 `;
 
-const Item = styled.li`
-  position: relative;
+const Column = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const Item = styled.div`
+  margin-bottom: clamp(14px, 2vw, 22px);
   overflow: hidden;
   background: ${({ theme }) => theme.colors.white};
-  transition: transform .15s ease, box-shadow .15s ease;
-  &:hover { box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 14px 32px rgba(0,0,0,.08); }
+  transition: box-shadow 0.15s ease;
+  &:hover {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 14px 32px rgba(0, 0, 0, 0.08);
+  }
 
   button {
-    position: absolute;
-    inset: 0;
+    display: block;
+    width: 100%;
     border: none;
     padding: 0;
+    margin: 0;
     cursor: zoom-in;
     background: transparent;
   }
-`;
 
-const Thumb = styled(Image)`
-  object-fit: cover;
-  object-position: bottom;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const Cta = styled.div`
@@ -114,19 +108,32 @@ const Cta = styled.div`
   a {
     display: inline-block;
     text-transform: uppercase;
-    letter-spacing: .04em;
+    letter-spacing: 0.04em;
     font-size: 14px;
     border-bottom: 1px solid ${({ theme }) => theme.colors.black};
     padding-bottom: 6px;
-    transition: color .2s ease, border-color .2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
-  a:hover { color: ${({ theme }) => theme.colors.red}; border-color: ${({ theme }) => theme.colors.red}; }
+  a:hover {
+    color: ${({ theme }) => theme.colors.red};
+    border-color: ${({ theme }) => theme.colors.red};
+  }
 `;
 
 /* ───────────── Componente ───────────── */
 export default function Gallery({ photos }: { photos: GImg[] }) {
   const [open, setOpen] = useState(false);
   const [idx, setIdx] = useState(0);
+  const cols = useColumnCount(BREAKPOINTS);
+
+  const columns = useMemo(
+    () =>
+      distributeColumns(
+        photos.map((img, i) => ({ img, originalIndex: i })),
+        cols,
+      ),
+    [photos, cols],
+  );
 
   if (!photos.length) return null;
 
@@ -136,30 +143,40 @@ export default function Gallery({ photos }: { photos: GImg[] }) {
         <Head>
           <h2 id="gallery-title">Explora la galería</h2>
           <p>
-            Cada fotografía es más que una imagen: un fragmento de historia convertido en memoria eterna.
-            Aquí encontrarás una selección de mis trabajos más recientes.
+            Cada fotografía es más que una imagen: un fragmento de historia
+            convertido en memoria eterna. Aquí encontrarás una selección de mis
+            trabajos más recientes.
           </p>
         </Head>
 
         <GridWrap>
-          <Grid>
-            {photos.map((img, i) => (
-              <Item key={img.src}>
-                <Thumb
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 850px) 48vw, (max-width: 520px) 50vw, 22vw"
-                  priority={i < 3}
-                />
-                <button
-                  type="button"
-                  aria-label="Abrir imagen"
-                  onClick={() => { setIdx(i); setOpen(true); }}
-                />
-              </Item>
+          <Columns>
+            {columns.map((col, colIdx) => (
+              <Column key={colIdx}>
+                {col.map(({ img, originalIndex: i }) => (
+                  <Item key={img.src}>
+                    <button
+                      type="button"
+                      aria-label="Abrir imagen"
+                      onClick={() => {
+                        setIdx(i);
+                        setOpen(true);
+                      }}
+                    >
+                      <NextImage
+                        src={img.src}
+                        alt={img.alt}
+                        width={600}
+                        height={600}
+                        sizes="(max-width: 850px) 48vw, 30vw"
+                        priority={i < 3}
+                      />
+                    </button>
+                  </Item>
+                ))}
+              </Column>
             ))}
-          </Grid>
+          </Columns>
 
           <Decor src={DECOR} alt="" />
         </GridWrap>

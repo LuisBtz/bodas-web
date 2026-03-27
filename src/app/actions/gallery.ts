@@ -72,6 +72,16 @@ export async function removeGalleryImage(index: number) {
   return { ok: true };
 }
 
+/** Remove multiple photos by indices */
+export async function removeGalleryImages(indices: number[]) {
+  const photos = readData();
+  const toRemove = new Set(indices.filter((i) => i >= 0 && i < photos.length));
+  if (toRemove.size === 0) return { ok: false };
+  const remaining = photos.filter((_, i) => !toRemove.has(i));
+  writeData(remaining);
+  return { ok: true, photos: remaining };
+}
+
 /** Read JPEG/PNG dimensions from raw buffer to detect orientation */
 function detectOrientation(buf: Buffer): 'landscape' | 'portrait' | 'square' {
   let w = 0, h = 0;
