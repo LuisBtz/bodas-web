@@ -266,7 +266,7 @@ export default function BodaRealShell({ boda, index, children }: Props) {
         {boda.coverImage && (
           <NextImage
             src={boda.coverImage}
-            alt={boda.title}
+            alt={`Portada de la boda de ${boda.title} en ${boda.location} — fotografía documental por Luis Benítez`}
             fill
             priority
             sizes="100vw"

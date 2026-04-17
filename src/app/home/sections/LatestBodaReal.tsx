@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import NextImage from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import Link from 'next/link';
 import type { BodaRealMeta } from '@/lib/bodas-reales';
 
@@ -201,6 +202,8 @@ export default function LatestBodaReal({ boda }: Props) {
                 fill
                 sizes="(max-width: 850px) 100vw, 55vw"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
               />
             )}
             <ImageOverlay />

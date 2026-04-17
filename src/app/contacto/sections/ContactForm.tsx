@@ -22,20 +22,7 @@ const Section = styled.section`
   }
 `;
 
-const Deco = styled.img<{ $side: 'left' | 'right' }>`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  ${({ $side }) => ($side === 'left' ? 'left: 2%;' : 'right: 2%;')}
-  width: 140px;
-  opacity: 0.7;
-  pointer-events: none;
-  user-select: none;
 
-  @media ${({ theme }) => theme.media.mdDown} {
-    display: none;
-  }
-`;
 
 const Grid = styled.div`
   display: grid;
@@ -340,8 +327,7 @@ export default function ContactForm() {
 
   return (
     <Section id="contacto" aria-labelledby="contact-headline">
-      <Deco src="/decor-left5.svg" alt="" $side="left" />
-      <Deco src="/decor6-right.svg" alt="" $side="right" />
+      
 
       <Container>
         <Grid>

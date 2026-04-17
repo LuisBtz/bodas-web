@@ -66,7 +66,7 @@ export default function Hero() {
       <Container>
         <Eyebrow>Sobre mí</Eyebrow>
         <Title>
-          El fotógrafo detrás de cada historia
+          Luis Benítez — Fotógrafo de Bodas en Monterrey
         </Title>
         <Divider>
           <span />

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Link from 'next/link';
 import NextImage from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import type { PostMeta } from '@/lib/blog';
 
 /* ─── Hero ─── */
@@ -211,6 +212,8 @@ export default function BlogPageClient({ posts }: Props) {
                       fill
                       sizes="(max-width: 520px) 92vw, (max-width: 1000px) 46vw, 30vw"
                       style={{ objectFit: 'cover', objectPosition: 'center' }}
+                      placeholder="blur"
+                      blurDataURL={BLUR_PLACEHOLDER}
                     />
                   )}
                 </CardImg>

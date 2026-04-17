@@ -12,7 +12,7 @@ const BREAKPOINT = 780;        // iPads / móviles
 const HYSTERESIS = 2;          // tolerancia al umbral 100vh
 const DOWN_THRESHOLD = 4;      // mostrar sticky tras acumular scroll down
 const UP_THRESHOLD = 10;       // ocultar sticky tras acumular scroll up
-const PANEL_IMAGE_SRC = '/menu-side.jpg'; // <-- pon tu imagen en public/
+const PANEL_IMAGE_SRC = '/menu-side.webp';
 const INTRO_MS = 700;          // duración del slide inicial del header
 
 /* ---------- Base styles ---------- */

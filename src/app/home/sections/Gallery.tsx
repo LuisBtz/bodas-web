@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import NextImage from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import { useMemo, useState } from 'react';
 import Lightbox from '@/components/ui/Lightbox';
 import { useColumnCount, distributeColumns } from '@/hooks/useColumnCount';
@@ -170,6 +171,8 @@ export default function Gallery({ photos }: { photos: GImg[] }) {
                         height={600}
                         sizes="(max-width: 850px) 48vw, 30vw"
                         priority={i < 3}
+                        placeholder="blur"
+                        blurDataURL={BLUR_PLACEHOLDER}
                       />
                     </button>
                   </Item>

@@ -5,8 +5,8 @@ import EditorialGrid from './sections/EditorialGrid';
 import { getAllBodasReales } from '@/lib/bodas-reales';
 
 export const metadata: Metadata = {
-  title: 'Bodas reales | Luis Benítez Photography',
-  description: 'Un vistazo íntimo a las bodas que hemos transformado en recuerdos eternos',
+  title: 'Bodas Reales en Monterrey — Historias Documentadas por Luis Benítez',
+  description: 'Descubre bodas reales fotografiadas en Monterrey y Nuevo León. Momentos auténticos, emociones reales y recuerdos eternos capturados por Luis Benítez.',
 };
 
 export default function BodasRealesPage() {

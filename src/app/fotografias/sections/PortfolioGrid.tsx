@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import { useMemo, useState } from 'react';
 import type { GalleryPhoto } from '@/lib/gallery';
 import Lightbox from '@/components/ui/Lightbox';
@@ -108,14 +109,16 @@ export default function PortfolioGrid({ photos }: Props) {
                     setIndex(i);
                     setOpen(true);
                   }}
-                  aria-label={p.alt || 'Ver imagen en grande'}
+                  aria-label={p.alt || 'Fotografía de boda en Monterrey por Luis Benítez'}
                 >
                   <Image
                     src={p.image}
-                    alt={p.alt || ''}
+                    alt={p.alt || 'Fotografía de boda en Monterrey por Luis Benítez'}
                     width={BASE_W}
                     height={HEIGHTS[p.orientation] ?? 533}
                     sizes={sizes}
+                    placeholder="blur"
+                    blurDataURL={BLUR_PLACEHOLDER}
                   />
                 </Item>
               ))}

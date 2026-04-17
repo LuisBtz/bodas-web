@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import authorPhoto from '@/assets/images/home/approach-left.jpg';
+import authorPhoto from '@/assets/images/home/hero-2.webp';
 
 const Wrapper = styled.aside`
   max-width: 680px;
@@ -35,7 +35,10 @@ const AvatarLink = styled(Link)`
   flex-shrink: 0;
   filter: grayscale(0.15);
   transition: filter 0.3s ease;
-
+  transform: scaleX(-1);
+  img {
+    transform: scale(300%) translateY(5%);
+  }
   &:hover {
     filter: grayscale(0);
   }

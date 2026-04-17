@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
 
-import storyPhoto from '@/assets/images/home/approach-left.jpg';
+import storyPhoto from '@/assets/images/home/hero-2.webp';
 
 const DECOR_FLOWER = '/flower-bottom-right.svg';
 const EMBLEM = '/Vector.svg';
@@ -48,6 +48,7 @@ const Photo = styled.div`
   height: 100%;
   overflow: hidden;
   z-index: 1;
+  transform: scaleX(-1);
 `;
 
 const DecorBR = styled.img`

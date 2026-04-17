@@ -5,7 +5,7 @@ import Philosophy from './sections/Philosophy';
 import CallToAction from './sections/CallToAction';
 
 export const metadata: Metadata = {
-  title: 'Sobre mí | Luis Benítez Photography',
+  title: 'Sobre Luis Benítez — Fotógrafo de Bodas Documental en Monterrey',
   description: 'Conoce la historia y filosofía de Luis Benítez, fotógrafo de bodas en Monterrey con un enfoque documental, emotivo y auténtico.',
 };
 

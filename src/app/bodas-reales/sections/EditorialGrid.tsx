@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import NextImage from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import Link from 'next/link';
 import type { BodaRealMeta } from '@/lib/bodas-reales';
 
@@ -229,11 +230,13 @@ export default function EditorialGrid({ items }: Props) {
             {featured.coverImage && (
               <NextImage
                 src={featured.coverImage}
-                alt={featured.title}
+                alt={`Boda de ${featured.title} en ${featured.location} — fotografía documental por Luis Benítez`}
                 fill
                 priority
                 sizes="(max-width: 800px) 100vw, 50vw"
                 style={{ objectFit: 'cover', objectPosition: 'center' }}
+                placeholder="blur"
+                blurDataURL={BLUR_PLACEHOLDER}
               />
             )}
           </FeaturedImage>
@@ -267,10 +270,12 @@ export default function EditorialGrid({ items }: Props) {
                       {boda.coverImage && (
                         <NextImage
                           src={boda.coverImage}
-                          alt={boda.title}
+                          alt={`Boda de ${boda.title} en ${boda.location} — fotografía documental por Luis Benítez`}
                           fill
                           sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw"
                           style={{ objectFit: 'cover', objectPosition: 'center' }}
+                          placeholder="blur"
+                          blurDataURL={BLUR_PLACEHOLDER}
                         />
                       )}
                     </CardImage>

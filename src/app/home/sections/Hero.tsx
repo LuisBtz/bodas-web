@@ -4,6 +4,20 @@ import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
 import heroBg from '@/assets/images/footer/2.jpg';
+import heroBgMobile from '@/assets/images/footer/2-mobile.jpg';
+
+const HeroImageDesktop = styled(Image)`
+  @media ${({ theme }) => theme.media.mdDown} {
+    display: none;
+  }
+`;
+
+const HeroImageMobile = styled(Image)`
+  display: none;
+  @media ${({ theme }) => theme.media.mdDown} {
+    display: block;
+  }
+`;
 
 const Section = styled.section`
   position: relative;
@@ -157,7 +171,7 @@ export default function Hero() {
 
   return (
     <Section>
-      <Image
+      <HeroImageDesktop
         src={heroBg}
         alt="Novios tomados de la mano dándose un beso en el altar durante la ceremonia religiosa, con la novia en vestido blanco y el novio en traje negro."
         fill
@@ -166,6 +180,15 @@ export default function Hero() {
         sizes="100vw"
         style={{ objectFit: 'cover', objectPosition: 'center', zIndex: -1 }}
         fetchPriority="high"
+      />
+      <HeroImageMobile
+        src={heroBgMobile}
+        alt="Novios tomados de la mano dándose un beso en el altar durante la ceremonia religiosa, con la novia en vestido blanco y el novio en traje negro."
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        style={{ objectFit: 'cover', objectPosition: 'center', zIndex: -1 }}
       />
       <Overlay $show={overlayShow} />
       <Container style={{ position: 'relative', zIndex: 1 }}>

@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import NextImage from 'next/image';
+import { BLUR_PLACEHOLDER } from '@/lib/blur-placeholder';
 import Link from 'next/link';
 import type { PostMeta } from '@/lib/blog';
 
@@ -333,6 +334,8 @@ export default function LatestPosts({ posts }: Props) {
               priority={false}
               sizes="(max-width: 850px) 100vw, 1200px"
               style={{ objectFit: 'cover', objectPosition: 'center' }}
+              placeholder="blur"
+              blurDataURL={BLUR_PLACEHOLDER}
             />
           )}
           <FeaturedOverlay />
@@ -363,6 +366,8 @@ export default function LatestPosts({ posts }: Props) {
                         fill
                         sizes="(max-width: 850px) 100vw, 540px"
                         style={{ objectFit: 'cover', objectPosition: 'center' }}
+                        placeholder="blur"
+                        blurDataURL={BLUR_PLACEHOLDER}
                       />
                     )}
                   </SecondaryImageWrap>

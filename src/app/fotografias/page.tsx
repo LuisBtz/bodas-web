@@ -5,8 +5,8 @@ import CallToAction from './sections/CallToAction';
 import { getGalleryPhotos } from '@/lib/gallery';
 
 export const metadata: Metadata = {
-  title: 'Las fotografías | Luis Benítez Photography',
-  description: 'Portfolio de fotografías de boda.',
+  title: 'Portafolio de Bodas en Monterrey — Fotografía Documental y Editorial',
+  description: 'Explora más de 100 imágenes de bodas reales fotografiadas en Monterrey, Nuevo León. Estilo documental y editorial con toques de fine art.',
 };
 
 export default function FotografiasPage() {
