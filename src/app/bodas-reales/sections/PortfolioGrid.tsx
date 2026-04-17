@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image, { StaticImageData } from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 /* --------------------------------- estilos -------------------------------- */
 

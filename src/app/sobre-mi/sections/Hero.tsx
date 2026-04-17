@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import styled from 'styled-components';
 import Container from '@/components/ui/Container';
 
@@ -70,7 +71,7 @@ export default function Hero() {
         </Title>
         <Divider>
           <span />
-          <img src="/Vector.svg" alt="" />
+          <Image src="/Vector.svg" alt="" width={32} height={47} />
           <span />
         </Divider>
       </Container>

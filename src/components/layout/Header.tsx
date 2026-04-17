@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import Link from 'next/link';
+import Image from 'next/image';
 import Container from '@/components/ui/Container';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -304,6 +305,8 @@ export default function Header() {
       document.dispatchEvent(new Event('intro:headerDone'));
       if (isHome) setHeroBarReady(true);
     }
+    // Intro animation is intentionally mount-only; isHome is captured on first render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* Scroll logic: mostrar/ocultar la barra sticky después de 100vh */
@@ -463,7 +466,12 @@ export default function Header() {
       <Drawer id="mobile-drawer" role="dialog" aria-modal="true" $open={open}>
         <DrawerLeft>
           {/* Imagen lado izquierdo */}
-          <img src={PANEL_IMAGE_SRC} alt="" />
+          <Image
+            src={PANEL_IMAGE_SRC}
+            alt=""
+            fill
+            sizes="(max-width: 780px) 50vw, 400px"
+          />
         </DrawerLeft>
 
         <DrawerRight>

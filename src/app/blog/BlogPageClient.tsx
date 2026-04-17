@@ -193,7 +193,7 @@ export default function BlogPageClient({ posts }: Props) {
           </HeroTitle>
           <HeroDivider>
             <span />
-            <img src="/Vector.svg" alt="" />
+            <NextImage src="/Vector.svg" alt="" width={32} height={47} />
             <span />
           </HeroDivider>
         </Container>

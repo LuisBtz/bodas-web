@@ -238,7 +238,7 @@ export default function Footer() {
           <BottomGrid>
             {/* Col 1: logo + redes */}
             <Brand>
-              <img src="/icon-l.svg" alt="Logotipo Luis Benítez Photography" />
+              <Image src="/icon-l.svg" alt="Logotipo Luis Benítez Photography" width={74} height={81} />
               <ul>
                 <li>
                   <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
