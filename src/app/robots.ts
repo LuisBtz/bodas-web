@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/keystatic/'],
       },
     ],
-    sitemap: 'https://www.photography.luisbtz.com/sitemap.xml',
+    sitemap: 'https://photography.luisbtz.com/sitemap.xml',
   };
 }

@@ -17,7 +17,7 @@ const jsonLd = {
   name: 'Colección de Fotografía de Boda',
   description:
     'Cobertura fotográfica documental y editorial para bodas en Monterrey. Incluye mínimo 6 horas de cobertura, 700+ imágenes editadas en alta resolución, galería digital privada, vista previa en días y segundo fotógrafo.',
-  provider: { '@id': 'https://www.photography.luisbtz.com/#business' },
+  provider: { '@id': 'https://photography.luisbtz.com/#business' },
   areaServed: [
     { '@type': 'City', name: 'Monterrey' },
     { '@type': 'City', name: 'San Pedro Garza García' },

@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllBodasReales } from '@/lib/bodas-reales';
 import { getAllPosts } from '@/lib/blog';
 
-const BASE = 'https://www.photography.luisbtz.com';
+const BASE = 'https://photography.luisbtz.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [

@@ -13,9 +13,9 @@ import { getAllPosts } from '@/lib/blog';
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': ['LocalBusiness', 'ProfessionalService'],
-  '@id': 'https://www.photography.luisbtz.com/#business',
+  '@id': 'https://photography.luisbtz.com/#business',
   name: 'Luis Benítez Photography',
-  url: 'https://www.photography.luisbtz.com',
+  url: 'https://photography.luisbtz.com',
   telephone: '+5218112498874',
   whatsapp: 'https://wa.me/5218112498874',
   description:

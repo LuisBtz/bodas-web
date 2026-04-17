@@ -4,7 +4,7 @@ Sitio web de fotografía y video de bodas en Monterrey. Next.js 15 (App Router)
 con contenido editable vía Keystatic (MDX en disco) y envío de consultas por
 Resend.
 
-Producción: https://www.photography.luisbtz.com
+Producción: https://photography.luisbtz.com
 
 ## Stack
 
