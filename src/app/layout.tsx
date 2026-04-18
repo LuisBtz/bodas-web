@@ -3,6 +3,7 @@ import StyledComponentsRegistry from '@/lib/styled-registry';
 import Providers from './Providers';
 import MainLayout from '@/components/layout/MainLayout'; // 👈 importa tu layout
 import { Cormorant } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export const metadata: Metadata = {
   title: {
@@ -43,6 +44,7 @@ const cormorant = Cormorant({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
+      <GoogleAnalytics gaId="G-JGW1J1VJXF" />
       <body className={cormorant.variable}>
         <StyledComponentsRegistry>
           <Providers>
