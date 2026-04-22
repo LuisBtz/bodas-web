@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.photography.luisbtz.com"
+        }
+      ],
+      "destination": "https://photography.luisbtz.com/:path*",
+      "permanent": true
+    }
+  ]
+}
