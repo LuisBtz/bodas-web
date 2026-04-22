@@ -241,7 +241,7 @@ export default function Footer() {
               <Image src="/icon-l.svg" alt="Logotipo Luis Benítez Photography" width={74} height={81} />
               <ul>
                 <li>
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.facebook.com/profile.php?id=61578594767267" target="_blank" rel="noopener noreferrer">
                     Facebook
                   </a>
                 </li>
@@ -254,11 +254,11 @@ export default function Footer() {
                     Instagram
                   </a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
                     Youtube
                   </a>
-                </li>
+                </li> */}
               </ul>
             </Brand>
 

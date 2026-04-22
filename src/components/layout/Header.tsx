@@ -481,10 +481,14 @@ export default function Header() {
             <DrawerList>
               {links}
               <div className='contact'>
-                <p><a>contacto@luisbtz.com</a></p>
+                <p><a href='mailto:contacto@luisbtz.com'>contacto@luisbtz.com</a></p>
                 <ul className='links'>
-                  <li><a>Facebook</a></li>
-                  <li><a>Instagram</a></li>
+                  <li><a href="https://www.facebook.com/profile.php?id=61578594767267" target="_blank" rel="noopener noreferrer">
+                    Facebook
+                  </a></li>
+                  <li><a href="https://www.instagram.com/luisbenitezphotography/" target="_blank" rel="noopener noreferrer">
+                    Instagram
+                  </a></li>
                 </ul>
               </div>
             </DrawerList>
