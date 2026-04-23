@@ -356,12 +356,12 @@ export default function ContactForm() {
               <ContactItem>
                 <ContactLabel>WhatsApp</ContactLabel>
                 <ContactValue
-                  href="https://wa.me/528112345678"
+                  href="https://wa.me/5218112498874?text=Hola%20Luis%2C%20te%20contacto%20desde%20tu%20p%C3%A1gina%20web%20%F0%9F%91%8B"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => pushEvent({ event: 'whatsapp_click', source: 'contacto' })}
                 >
-                  +52 (81) 1234-5678
+                  +52 (81) 1249-8874
                 </ContactValue>
               </ContactItem>
               <ContactItem>

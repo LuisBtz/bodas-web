@@ -12,6 +12,7 @@ import f2 from '@/assets/images/footer/2.jpg';
 import f3 from '@/assets/images/footer/3.jpg';
 import f4 from '@/assets/images/footer/4.jpg';
 import f5 from '@/assets/images/footer/5.jpg';
+import { pushEvent } from '@/lib/gtm';
 
 const IG: { src: StaticImageData; href: string; alt: string }[] = [
   {
@@ -293,7 +294,14 @@ export default function Footer() {
             {/* Col 3: contacto */}
             <Contact>
               <a href="mailto:contacto@luisbtz.com">contacto@luisbtz.com</a>
-              <span>+52 8116 93 8801</span>
+              <a
+                href="https://wa.me/5218112498874?text=Hola%20Luis%2C%20te%20contacto%20desde%20tu%20p%C3%A1gina%20web%20%F0%9F%91%8B"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => pushEvent({ event: 'whatsapp_click', source: 'footer' })}
+              >
+                +52 (81) 1249-8874
+              </a>
             </Contact>
           </BottomGrid>
         </Container>
