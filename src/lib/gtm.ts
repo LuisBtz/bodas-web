@@ -3,9 +3,14 @@ type GtmEvent = {
   [key: string]: unknown;
 };
 
+declare global {
+  interface Window {
+    dataLayer: GtmEvent[];
+  }
+}
+
 export function pushEvent(payload: GtmEvent) {
   if (typeof window === 'undefined') return;
-  (window as { dataLayer?: GtmEvent[] }).dataLayer =
-    (window as { dataLayer?: GtmEvent[] }).dataLayer ?? [];
-  (window as { dataLayer: GtmEvent[] }).dataLayer.push(payload);
+  window.dataLayer = window.dataLayer ?? [];
+  window.dataLayer.push(payload);
 }
