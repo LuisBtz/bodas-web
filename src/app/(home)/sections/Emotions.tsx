@@ -5,9 +5,9 @@ import styled, { css } from 'styled-components';
 import Container from '@/components/ui/Container';
 import Image from 'next/image';
 
-import emotionsPhoto1 from '@/assets/images/home/emotions-right.jpg';
-import emotionsPhoto2 from '@/assets/images/home/emotions-right.jpg';
-import emotionsPhoto3 from '@/assets/images/home/emotions-right.jpg';
+import testimonio1 from '@/assets/images/home/testimonio-1.jpg';
+import testimonio2 from '@/assets/images/home/testimonio-2.jpg';
+import testimonio3 from '@/assets/images/home/testimonio-3.jpg';
 const DECOR_FLOWER = '/flower2-bottom-left.svg';
 
 /* ═══════════════════════════════════════════
@@ -16,24 +16,24 @@ const DECOR_FLOWER = '/flower2-bottom-left.svg';
 const TESTIMONIALS = [
   {
     quote:
-      '"Nos encantó cada momento que compartimos con Luis. Desde el principio, nos hizo sentir tranquilos, relajados y en confianza. Aunque el clima no fue el ideal, Luis demostró su gran profesionalismo capturando imágenes increíbles. Cuidó cada detalle, buscó el mejor ángulo en cada rincón, y su pasión se notaba en cada toma. Las fotos que hoy tenemos no solo reflejan su gran talento, sino también la calidez y cariño con los que trabaja. ¡Gracias infinitas, Luis!"',
-    author: 'Janeth y Valentín',
-    photo: emotionsPhoto1,
-    alt: 'Janeth y Valentín abrazándose en un parque.',
+      '"Trabajar con Luis fue una experiencia maravillosa de principio a fin. Desde que platicamos por primera vez, nos transmitió una calma y seguridad que nos hizo saber que habíamos elegido bien. El día de la boda, su energía positiva y su manera de dirigirnos sin que se sintiera forzado hizo que todo fluyera naturalmente. Recorrimos el centro de Monterrey buscando las mejores locaciones, y Luis tenía un ojo increíble para encontrar rincones llenos de luz y vida que ni siquiera sabíamos que existían. Su pasión por lo que hace se nota en cada click, en cómo espera el momento perfecto, en cómo cuida cada detalle. Las fotos que nos entregó son un tesoro que superó todas nuestras expectativas: emotivas, auténticas y llenas de ese calor regio que queríamos capturar. ¡Gracias por tu talento y por hacernos sentir tan especiales, Luis!"',
+    author: 'Amy & Jorge',
+    photo: testimonio1,
+    alt: 'Amy y Jorge en el centro de Monterrey.',
   },
   {
     quote:
       '"Nos encantó cada momento que compartimos con Luis. Desde el principio, nos hizo sentir tranquilos, relajados y en confianza. Aunque el clima no fue el ideal, Luis demostró su gran profesionalismo capturando imágenes increíbles. Cuidó cada detalle, buscó el mejor ángulo en cada rincón, y su pasión se notaba en cada toma. Las fotos que hoy tenemos no solo reflejan su gran talento, sino también la calidez y cariño con los que trabaja. ¡Gracias infinitas, Luis!"',
     author: 'Janeth y Valentín',
-    photo: emotionsPhoto2,
-    alt: 'Janeth y Valentín durante su ceremonia.',
+    photo: testimonio2,
+    alt: 'Janeth y Valentín durante su boda.',
   },
   {
     quote:
-      '"Nos encantó cada momento que compartimos con Luis. Desde el principio, nos hizo sentir tranquilos, relajados y en confianza. Aunque el clima no fue el ideal, Luis demostró su gran profesionalismo capturando imágenes increíbles. Cuidó cada detalle, buscó el mejor ángulo en cada rincón, y su pasión se notaba en cada toma. Las fotos que hoy tenemos no solo reflejan su gran talento, sino también la calidez y cariño con los que trabaja. ¡Gracias infinitas, Luis!"',
-    author: 'Janeth y Valentín',
-    photo: emotionsPhoto3,
-    alt: 'Janeth y Valentín en su recepción.',
+      '"Las fotografías que nos tomó son un sueño, estamos encantados y maravillados con ellas. Lo recomendamos ampliamente, además de que conecta muy bonito con lo que tienes de tema de la boda. Estamos muy agradecidos de que capturara con tanta magia esos momentos."',
+    author: 'Victoria & Arturo',
+    photo: testimonio3,
+    alt: 'Victoria y Arturo en su boda.',
   },
 ];
 
