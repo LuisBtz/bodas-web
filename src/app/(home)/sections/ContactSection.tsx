@@ -6,6 +6,7 @@ import { useActionState, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { sendContactFull } from '@/app/actions/sendContactFull';
 import { initialFullState, type ContactFullState } from '@/app/actions/contactFullState';
+import { pushEvent } from '@/lib/gtm';
 
 /* ---------- Layout ---------- */
 const Section = styled.section`
@@ -236,6 +237,7 @@ export default function ContactSection() {
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
+      pushEvent({ event: 'form_submit', form_id: 'home' });
     }
   }, [state?.ok]);
 

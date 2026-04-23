@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import Container from '@/components/ui/Container';
 import { sendContactFull } from '@/app/actions/sendContactFull';
 import { initialFullState, type ContactFullState } from '@/app/actions/contactFullState';
+import { pushEvent } from '@/lib/gtm';
 
 /* ─────────────────────────────────────────────
    Layout
@@ -322,6 +323,7 @@ export default function ContactForm() {
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
+      pushEvent({ event: 'form_submit', form_id: 'contacto' });
     }
   }, [state?.ok]);
 
@@ -357,6 +359,7 @@ export default function ContactForm() {
                   href="https://wa.me/528112345678"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => pushEvent({ event: 'whatsapp_click', source: 'contacto' })}
                 >
                   +52 (81) 1234-5678
                 </ContactValue>
