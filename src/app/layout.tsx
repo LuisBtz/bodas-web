@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     'Fotografía y video cinematográfico de bodas en Monterrey, Nuevo León. Estilo documental, emotivo y auténtico. Agenda tu sesión con Luis Benítez.',
   metadataBase: new URL('https://photography.luisbtz.com'),
   robots: { index: true, follow: true },
+  other: {
+    'facebook-domain-verification': 'c95ox9874sq5itv5v2d39rtdmr1glf',
+  },
   openGraph: {
     siteName: 'Luis Benítez Photography',
     locale: 'es_MX',
