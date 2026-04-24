@@ -18,11 +18,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return <>{children}</>;
   }
 
+  // La landing de brochure usa su propio header y footer minimal (sin distracciones).
+  const isExperiencia = pathname?.startsWith('/la-experiencia');
+
   return (
     <Wrapper>
-      <Header />
+      {!isExperiencia && <Header />}
       <main>{children}</main>
-      <Footer />
+      {!isExperiencia && <Footer />}
     </Wrapper>
   );
 }
