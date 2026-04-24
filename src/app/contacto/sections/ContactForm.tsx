@@ -7,6 +7,7 @@ import Container from '@/components/ui/Container';
 import { sendContactFull } from '@/app/actions/sendContactFull';
 import { initialFullState, type ContactFullState } from '@/app/actions/contactFullState';
 import { pushEvent } from '@/lib/gtm';
+import { sendCapiEvent } from '@/lib/meta-capi';
 
 /* ─────────────────────────────────────────────
    Layout
@@ -316,14 +317,19 @@ export default function ContactForm() {
     initialFullState
   );
 
-  // Timestamp: se establece al montar el componente en el cliente.
-  // El servidor verifica que hayan pasado ≥ 3s desde que se cargó el form.
   const [formTime] = useState(() => Date.now().toString());
+  const emailRef = useRef('');
+  const phoneRef = useRef('');
 
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
       pushEvent({ event: 'form_submit', form_id: 'contacto' });
+      sendCapiEvent({
+        event_name: 'Lead',
+        email: emailRef.current,
+        phone: phoneRef.current,
+      });
     }
   }, [state?.ok]);
 
@@ -436,6 +442,7 @@ export default function ContactForm() {
                       type="tel"
                       autoComplete="tel"
                       placeholder="+52 81 1234 5678"
+                      onChange={(e) => { phoneRef.current = e.target.value; }}
                     />
                     {state?.errors?.phone && <ErrorMsg>{state.errors.phone}</ErrorMsg>}
                   </Field>
@@ -450,6 +457,7 @@ export default function ContactForm() {
                     type="email"
                     autoComplete="email"
                     placeholder="ana@correo.com"
+                    onChange={(e) => { emailRef.current = e.target.value; }}
                   />
                   {state?.errors?.email && <ErrorMsg>{state.errors.email}</ErrorMsg>}
                 </Field>
