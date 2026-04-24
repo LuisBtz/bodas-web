@@ -279,16 +279,19 @@ export default function BrochureForm() {
       venue,
       meta_event_id: metaEventId,
     });
+
+    formRef.current?.reset();
+
+    // Esperar CAPI antes de navegar para que el fetch no se cancele
     sendCapiEvent({
       event_name: 'Lead',
       event_id: metaEventId,
       email: emailRef.current,
       phone: phoneRef.current,
       name: nameRef.current,
+    }).finally(() => {
+      router.push('/la-experiencia/gracias');
     });
-
-    formRef.current?.reset();
-    router.push('/la-experiencia/gracias');
   }, [state?.ok, router]);
 
   return (
