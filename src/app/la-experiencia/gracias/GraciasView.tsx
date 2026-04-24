@@ -117,7 +117,12 @@ export default function GraciasView() {
 
           <Rule aria-hidden="true" />
 
-          <CtaPrimary href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
+          <CtaPrimary
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => pushEvent({ event: 'calendly_click', source: 'gracias' })}
+          >
             Agendar videollamada ahora <span aria-hidden="true">→</span>
           </CtaPrimary>
 

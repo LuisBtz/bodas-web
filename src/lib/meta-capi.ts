@@ -12,8 +12,10 @@ function generateEventId(): string {
 
 type CapiEventOptions = {
   event_name: string;
+  event_id?: string;
   email?: string;
   phone?: string;
+  name?: string;
 };
 
 /**
@@ -25,7 +27,7 @@ type CapiEventOptions = {
  *   window.fbq('track', 'Lead', {}, { eventID: id });
  */
 export async function sendCapiEvent(options: CapiEventOptions): Promise<string> {
-  const event_id = generateEventId();
+  const event_id = options.event_id ?? generateEventId();
   const fbp = getCookie('_fbp');
   const fbc = getCookie('_fbc');
 

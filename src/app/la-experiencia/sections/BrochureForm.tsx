@@ -8,6 +8,7 @@ import Container from '@/components/ui/Container';
 import { sendBrochure } from '@/app/actions/sendBrochure';
 import { initialBrochureState, type BrochureState } from '@/app/actions/brochureState';
 import { pushEvent } from '@/lib/gtm';
+import { sendCapiEvent } from '@/lib/meta-capi';
 
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'] as const;
 type UtmKey = (typeof UTM_KEYS)[number];
@@ -215,6 +216,9 @@ function Submit() {
 ───────────────────────────────────────────── */
 export default function BrochureForm() {
   const formRef = useRef<HTMLFormElement>(null);
+  const emailRef = useRef('');
+  const phoneRef = useRef('');
+  const nameRef = useRef('');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -267,13 +271,20 @@ export default function BrochureForm() {
     const weddingDate = String(fd.get('weddingDate') ?? '') || null;
     const venue = String(fd.get('venue') ?? '') || null;
 
-    // Este evento alimenta dataLayer de GTM.
-    // En GTM debo crear: Trigger (Custom Event: brochure_request) → Tag (Meta Pixel - Lead)
+    const metaEventId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
     pushEvent({
       event: 'brochure_request',
       form_location: 'la-experiencia',
       wedding_date: weddingDate,
       venue,
+      meta_event_id: metaEventId,
+    });
+    sendCapiEvent({
+      event_name: 'Lead',
+      event_id: metaEventId,
+      email: emailRef.current,
+      phone: phoneRef.current,
+      name: nameRef.current,
     });
 
     formRef.current?.reset();
@@ -326,6 +337,7 @@ export default function BrochureForm() {
                   required
                   aria-invalid={state?.errors?.name ? true : undefined}
                   aria-describedby={state?.errors?.name ? 'name-error' : undefined}
+                  onChange={(e) => { nameRef.current = e.target.value; }}
                 />
                 {state?.errors?.name && (
                   <ErrorMsg id="name-error">{state.errors.name}</ErrorMsg>
@@ -342,6 +354,7 @@ export default function BrochureForm() {
                   required
                   aria-invalid={state?.errors?.email ? true : undefined}
                   aria-describedby={state?.errors?.email ? 'email-error' : undefined}
+                  onChange={(e) => { emailRef.current = e.target.value; }}
                 />
                 {state?.errors?.email && (
                   <ErrorMsg id="email-error">{state.errors.email}</ErrorMsg>
@@ -361,6 +374,7 @@ export default function BrochureForm() {
                 required
                 aria-invalid={state?.errors?.phone ? true : undefined}
                 aria-describedby={state?.errors?.phone ? 'phone-error' : undefined}
+                onChange={(e) => { phoneRef.current = e.target.value; }}
               />
               {state?.errors?.phone && (
                 <ErrorMsg id="phone-error">{state.errors.phone}</ErrorMsg>

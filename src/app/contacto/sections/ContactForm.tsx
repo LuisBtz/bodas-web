@@ -320,15 +320,19 @@ export default function ContactForm() {
   const [formTime] = useState(() => Date.now().toString());
   const emailRef = useRef('');
   const phoneRef = useRef('');
+  const nameRef = useRef('');
 
   useEffect(() => {
     if (state?.ok) {
       formRef.current?.reset();
-      pushEvent({ event: 'form_submit', form_id: 'contacto' });
+      const metaEventId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+      pushEvent({ event: 'form_submit', form_id: 'contacto', meta_event_id: metaEventId });
       sendCapiEvent({
-        event_name: 'Lead',
+        event_name: 'Contact',
+        event_id: metaEventId,
         email: emailRef.current,
         phone: phoneRef.current,
+        name: nameRef.current,
       });
     }
   }, [state?.ok]);
@@ -431,6 +435,7 @@ export default function ContactForm() {
                       type="text"
                       autoComplete="name"
                       placeholder="Ana García"
+                      onChange={(e) => { nameRef.current = e.target.value; }}
                     />
                     {state?.errors?.name && <ErrorMsg>{state.errors.name}</ErrorMsg>}
                   </Field>
