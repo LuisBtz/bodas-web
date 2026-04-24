@@ -264,7 +264,7 @@ export default function Upgrades() {
                 50% para asegurar la fecha. Lamentablemente no es posible apartar
                 fechas sin estos requisitos dada la demanda limitada.
               </LimitedText>
-              <ContactBtn href="/contacto">Consultar disponibilidad</ContactBtn>
+              <ContactBtn href="/la-experiencia">Consultar disponibilidad + guía de precios</ContactBtn>
             </LimitedCopy>
 
             <PhotoWrap
